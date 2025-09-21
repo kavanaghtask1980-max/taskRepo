@@ -39,7 +39,7 @@ public class BaseTest {
 
     @BeforeMethod(alwaysRun = true)
     public void BeforeMethod(ITestContext context){
-    test.log(Status.INFO, "In BeforeMethod" );
+    test.log(Status.INFO, "In BeforeMethod");
     test = (ExtentTest)context.getAttribute("test");
 
     String criticalFailure = (String)context.getAttribute("criticalFailure");
@@ -51,7 +51,7 @@ public class BaseTest {
 		rep = (ExtentReports)context.getAttribute("report");
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void quit(){
       app.quit();
       test.log(Status.INFO, "Test Finished" );
