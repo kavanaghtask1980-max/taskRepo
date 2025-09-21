@@ -232,6 +232,7 @@ public class ApplicationKeywords {
     }
 
     public void navigate(String url) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
         log("Navigating to " + url);
         driver.get(envProp.getProperty(url));
         String title = driver.getTitle();
@@ -244,12 +245,36 @@ public class ApplicationKeywords {
         signInBut.click();
         waitForPageToLoad();
         log("Navigating to " + url);
-        WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
         Actions actions = new Actions(driver);
+       
+        WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
+     
         actions.moveToElement(buildJobName).build().perform();
-        WebElement openMenu = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
-        openMenu.click();
-        waitForPageToLoad();
+        // actions.moveToElement(buildJobName, 5, 0).click().perform();
+        // actions.moveToElement(buildJobName, 10, 0).click().perform();
+        // actions.moveToElement(buildJobName, 15, 0).click().perform();
+        // actions.moveToElement(buildJobName, 20, 0).click().perform();
+        actions.moveToElement(buildJobName, 25, 0).click().perform();
+       // actions.moveToElement(buildJobName, 30, 0).click().perform();
+        //wait(5);
+        
+        // WebElement openMenu = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
+        // actions.moveToElement(openMenu).click().perform();
+        // wait(2);
+
+        // WebElement openMenu1 = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
+        // wait(2);
+        
+        // actions.moveToElement(buildJobName, 5, 0).click().perform();
+        // actions.moveToElement(buildJobName, 10, 0).click().perform();
+        // actions.moveToElement(buildJobName, 15, 0).click().perform();
+        // actions.moveToElement(buildJobName, 20, 0).click().perform();
+        // actions.moveToElement(buildJobName, 25, 0).click().perform();
+        // actions.moveToElement(buildJobName, 30, 0).click().perform();
+
+
+        
+        
     }
 
 

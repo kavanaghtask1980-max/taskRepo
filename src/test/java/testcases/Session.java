@@ -13,8 +13,8 @@ public class Session extends BaseTest {
     public void hpBuildJobMenuNav(ITestContext context) {
         app.log("hpBuildJobMenuNav");
         app.navigate("url"); 
-        app.hpSelectBuildJobPopMenuOne("Changes");
-        // app.click("buildNameArrow_css");
+        // app.hpSelectBuildJobPopMenuOne("Changes");
+        // // app.click("buildNameArrow_css");
         // app.hpSelectBuildJobPopMenuOne("Workspace");
         // app.click("buildNameArrow_css");
         // app.hpSelectBuildJobPopMenuOne("Build Now");
@@ -27,7 +27,7 @@ public class Session extends BaseTest {
         // app.click("buildNameArrow_css");
         // app.hpSelectBuildJobPopMenuOne("GitHub");
         // app.click("buildNameArrow_css");
-        // app.hpSelectBuildJobPopMenuOne("Rename");
+           app.hpSelectBuildJobPopMenuOne("Rename");
         // app.click("buildNameArrow_css");
         // app.hpSelectBuildJobPopMenuOne("Credentials");
     }
