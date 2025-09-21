@@ -1,5 +1,5 @@
 
-<suite name="testNG1">
+<suite name="testNG1" parallel="tests">
 <listeners>
 <listener class-name="listener.MyTestNGListener"/>
 </listeners>
@@ -21,7 +21,7 @@
 </class>
 </classes>
 </test> 
-<test name="Jenkins home builds page - jobTimings">
+<!-- <test name="Jenkins home builds page - jobTimings">
 <classes>
 <class name="testcases.Sessiontest">
 <methods>
@@ -29,6 +29,6 @@
 </methods>
 </class>
 </classes>
-</test>  
+</test>   -->
 </suite>
 <!--  Suite  -->

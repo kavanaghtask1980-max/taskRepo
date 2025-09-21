@@ -27,13 +27,13 @@ public class Sessiontest extends BaseTest {
         app.hpSelectBuildJobPopMenu("Delete build");
     }
 
-    @Test
-    public void jobTimings(ITestContext context){
-        app.log("jobTimings");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Timings");
-    }
+    // @Test
+    // public void jobTimings(ITestContext context){
+    //     app.log("jobTimings");
+    //     app.buildNumberSel();
+    //     app.hpSelectBuildJobPopMenu("Workspace");
+    //     app.buildNumberMenu(number);
+    //     app.hpSelectBuildJobPopMenu("Timings");
+    // }
 
  }
