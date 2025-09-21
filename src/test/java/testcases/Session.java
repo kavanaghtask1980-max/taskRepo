@@ -41,14 +41,14 @@ public class Session extends BaseTest {
         app.hpSelectBuildJobPopMenu("Changes");
     }
     
-    // @Test
-    // public void jobConsoleOutput(ITestContext context) {
-    //     app.log("jobConsoleOutput");
-    //     app.buildNumberSel();
-    //     app.hpSelectBuildJobPopMenu("Workspace");
-    //     app.buildNumberMenu(number);
-    //     app.hpSelectBuildJobPopMenu("Console Output");
-    // }
+    @Test
+    public void jobConsoleOutput(ITestContext context) {
+        app.log("jobConsoleOutput");
+        app.buildNumberSel();
+        app.hpSelectBuildJobPopMenu("Workspace");
+        app.buildNumberMenu(number);
+        app.hpSelectBuildJobPopMenu("Console Output");
+    }
 
     
 
