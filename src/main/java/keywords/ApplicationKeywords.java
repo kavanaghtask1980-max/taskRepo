@@ -81,7 +81,6 @@ public class ApplicationKeywords {
                 log("Menu choice selected: " + hpSelectBuildPopJobMenuOptions);
                 js.executeScript("javascript:arguments[0].click();", e);
                 waitForPageToLoad();
-                takeScreenShot();
                 WebElement homeJenkins = driver.findElement(By.cssSelector("span.jenkins-mobile-hide"));
                 js.executeScript("javascript:arguments[0].click();", homeJenkins);
                 waitForPageToLoad();
@@ -139,16 +138,13 @@ public class ApplicationKeywords {
             WebElement buildNumberButton = buildMenuButtons.get(i);
             
             log("Build number / Details: " + buildInnerTextRecordAtt);
-            log("loop number: " + i);
-
+           
             actions.moveToElement(buildNumberButton).build().perform();
             
             if(buildInnerTextRecordAtt.contains(buildNumber)){
                 js.executeScript("javascript:arguments[0].click();", buildNumberButton);
                 waitForPageToLoad();
-                takeScreenShot();
-               break;
-             }
+            }break;
         }
     }
 
@@ -245,35 +241,13 @@ public class ApplicationKeywords {
         signInBut.click();
         waitForPageToLoad();
         log("Navigating to " + url);
+    }
+
+        public void buildNumberSel() {
         Actions actions = new Actions(driver);
-       
         WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
-     
         actions.moveToElement(buildJobName).build().perform();
-        // actions.moveToElement(buildJobName, 5, 0).click().perform();
-        // actions.moveToElement(buildJobName, 10, 0).click().perform();
-        // actions.moveToElement(buildJobName, 15, 0).click().perform();
-        // actions.moveToElement(buildJobName, 20, 0).click().perform();
         actions.moveToElement(buildJobName, 25, 0).click().perform();
-       // actions.moveToElement(buildJobName, 30, 0).click().perform();
-        //wait(5);
-        
-        // WebElement openMenu = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
-        // actions.moveToElement(openMenu).click().perform();
-        // wait(2);
-
-        // WebElement openMenu1 = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
-        // wait(2);
-        
-        // actions.moveToElement(buildJobName, 5, 0).click().perform();
-        // actions.moveToElement(buildJobName, 10, 0).click().perform();
-        // actions.moveToElement(buildJobName, 15, 0).click().perform();
-        // actions.moveToElement(buildJobName, 20, 0).click().perform();
-        // actions.moveToElement(buildJobName, 25, 0).click().perform();
-        // actions.moveToElement(buildJobName, 30, 0).click().perform();
-
-
-        
         
     }
 
