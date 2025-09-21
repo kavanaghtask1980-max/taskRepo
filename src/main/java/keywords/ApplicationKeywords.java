@@ -238,12 +238,12 @@ public class ApplicationKeywords {
         log("Page Title => " + title);
         WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
         WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
-      
-
+        WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
         userName.sendKeys("kavanaghtom1980");
         passWord.sendKeys("Desire97!");
-        // WebElement signInBut = driver.findElement(By.cssSelector("input#j_username"));
+        signInBut.click();
         waitForPageToLoad();
+        log("Navigating to " + url);
     }
 
     public void quit() {
