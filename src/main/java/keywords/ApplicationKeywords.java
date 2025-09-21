@@ -111,7 +111,6 @@ public class ApplicationKeywords {
                 log("Menu choice selected: " + hpSelectBuildPopJobMenuOptions);
                 js.executeScript("javascript:arguments[0].click();", e);
                 waitForPageToLoad();
-                takeScreenShot();
                 break;
             }
 
