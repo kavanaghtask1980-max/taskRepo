@@ -3,24 +3,6 @@
 <listeners>
 <listener class-name="listener.MyTestNGListener"/>
 </listeners>
-<test name="testNG1">
-<classes>
-<class name="testcases.Sessiontest">
-<methods>
-<include name="testNG1"/>
-</methods>
-</class>
-</classes>
-</test>
-<test name="Jenkins home builds page - jobConsoleOutput">
-<classes>
-<class name="testcases.Sessiontest">
-<methods>
-<include name="jobConsoleOutput"/>
-</methods>
-</class>
-</classes>
-</test>
 <test name="Jenkins home builds page - jobEditBuildInf">
 <classes>
 <class name="testcases.Sessiontest">

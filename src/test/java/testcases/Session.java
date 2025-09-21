@@ -32,6 +32,24 @@ public class Session extends BaseTest {
         // app.hpSelectBuildJobPopMenuOne("Credentials");
     }
 
+        @Test
+        public void jobChanges(ITestContext context) {
+        app.log("jobChanges");
+        app.buildNumberSel();
+        app.hpSelectBuildJobPopMenu("Workspace");
+        app.buildNumberMenu(number);
+        app.hpSelectBuildJobPopMenu("Changes");
+    }
+    
+    @Test
+    public void jobConsoleOutput(ITestContext context) {
+        app.log("jobConsoleOutput");
+        app.buildNumberSel();
+        app.hpSelectBuildJobPopMenu("Workspace");
+        app.buildNumberMenu(number);
+        app.hpSelectBuildJobPopMenu("Console Output");
+    }
+
     
 
 

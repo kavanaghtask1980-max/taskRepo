@@ -9,25 +9,7 @@ public class Sessiontest extends BaseTest {
 
     String number = "19";
     
-    @Test
-    public void testNG1(ITestContext context) {
-        app.log("jobChanges");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Console Output");
-    }
-    
-    @Test
-    public void jobConsoleOutput(ITestContext context) {
-        app.log("jobConsoleOutput");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Console Output");
-    }
-
-    @Test
+@Test
     public void jobEditBuildInf(ITestContext context) {
         app.log("jobEditBuildInf");
         app.buildNumberSel();
