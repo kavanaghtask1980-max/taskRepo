@@ -33,6 +33,8 @@ import reports.ExtentManager;
 
 public class ApplicationKeywords {
 
+    
+
     public WebDriver driver;
     public Properties prop;
     public Properties envProp;
@@ -234,6 +236,14 @@ public class ApplicationKeywords {
         driver.get(envProp.getProperty(url));
         String title = driver.getTitle();
         log("Page Title => " + title);
+        WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
+        WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
+      
+
+        userName.sendKeys("kavanaghtom1980");
+        passWord.sendKeys("Desire97!");
+        // WebElement signInBut = driver.findElement(By.cssSelector("input#j_username"));
+        waitForPageToLoad();
     }
 
     public void quit() {
