@@ -3,6 +3,7 @@ package keywords;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
@@ -32,8 +35,6 @@ import com.aventstack.extentreports.Status;
 import reports.ExtentManager;
 
 public class ApplicationKeywords {
-
-    
 
     public WebDriver driver;
     public Properties prop;
@@ -61,7 +62,7 @@ public class ApplicationKeywords {
         softAssert = new SoftAssert();
     }
 
-        public void hpSelectBuildJobPopMenuOne(String menuOption) {
+    public void hpSelectBuildJobPopMenuOne(String menuOption) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         Actions actions = new Actions(driver);
 
@@ -73,9 +74,9 @@ public class ApplicationKeywords {
         for (int i = 0; i < elements.size(); i++) {
             String hpSelectBuildPopJobMenuOptions = elements.get(i).getText();
             log("Menu choice:" + hpSelectBuildPopJobMenuOptions);
-            
-                WebElement e = elements.get(i);
-                actions.moveToElement(e).build().perform();
+
+            WebElement e = elements.get(i);
+            actions.moveToElement(e).build().perform();
 
             if (hpSelectBuildPopJobMenuOptions.contains(menuOption)) {
                 log("Menu choice selected: " + hpSelectBuildPopJobMenuOptions);
@@ -103,9 +104,9 @@ public class ApplicationKeywords {
         for (int i = 0; i < elements.size(); i++) {
             String hpSelectBuildPopJobMenuOptions = elements.get(i).getText();
             log("Menu choice:" + hpSelectBuildPopJobMenuOptions);
-            
-                WebElement e = elements.get(i);
-                actions.moveToElement(e).build().perform();
+
+            WebElement e = elements.get(i);
+            actions.moveToElement(e).build().perform();
 
             if (hpSelectBuildPopJobMenuOptions.contains(menuOption)) {
                 log("Menu choice selected: " + hpSelectBuildPopJobMenuOptions);
@@ -135,19 +136,20 @@ public class ApplicationKeywords {
 
             String buildInnerTextRecordAtt = buildInnerText.get(i).getAttribute("href");
             WebElement buildNumberButton = buildMenuButtons.get(i);
-            
+
             log("Build number / Details: " + buildInnerTextRecordAtt);
-           
+
             actions.moveToElement(buildNumberButton).build().perform();
-            
-            if(buildInnerTextRecordAtt.contains(buildNumber)){
+
+            if (buildInnerTextRecordAtt.contains(buildNumber)) {
                 js.executeScript("javascript:arguments[0].click();", buildNumberButton);
                 waitForPageToLoad();
-            }break;
+            }
+            break;
         }
     }
 
-        public void buildNumberMenu(String buildNumber) {
+    public void buildNumberMenu(String buildNumber) {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         Actions actions = new Actions(driver);
@@ -164,18 +166,18 @@ public class ApplicationKeywords {
 
             String buildInnerTextRecordAtt = buildInnerText.get(i).getAttribute("href");
             WebElement buildNumberButton = buildMenuButtons.get(i);
-            
+
             log("Build number / Details: " + buildInnerTextRecordAtt);
             log("loop number: " + i);
 
             actions.moveToElement(buildNumberButton).build().perform();
-            
-            if(buildInnerTextRecordAtt.contains(buildNumber)){
+
+            if (buildInnerTextRecordAtt.contains(buildNumber)) {
                 js.executeScript("javascript:arguments[0].click();", buildNumberButton);
                 waitForPageToLoad();
                 takeScreenShot();
-               break;
-             }
+                break;
+            }
         }
     }
 
@@ -200,11 +202,13 @@ public class ApplicationKeywords {
 
                 break;
             } else //.........wait system
+            {
                 log("Waiting else => " + state);
+            }
             {
                 wait(2);
-                
-                 log("Waiting after => " + state);
+
+                log("Waiting after => " + state);
             }
             log("Going around waitForPageToLoad");
             i++;
@@ -229,30 +233,55 @@ public class ApplicationKeywords {
     }
 
     public void openBrowser(String browserName) {
-
+       
         log("Opening the browser " + browserName);
 
-        if (browserName.equalsIgnoreCase("Chrome")) {
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\chromedriver.exe");
-            ChromeOptions chOptions = new ChromeOptions();
-            chOptions.addArguments("--remote-allow-origins=*");
-            chOptions.addArguments("--disable-notifications");
-            chOptions.addArguments("--start-maximized");
-            chOptions.addArguments("--ignore-certificate-errors");
-            driver = new ChromeDriver(chOptions);
+        
+      
+        if(prop.get("grid_run").equals("Y")) {
+			
+			DesiredCapabilities cap=new DesiredCapabilities();
+			if(browserName.equals("Mozilla")){
+				
+				cap.setBrowserName("edge");
+				//cap.setJavascriptEnabled(true);
+				cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
+				
+			}else if(browserName.equals("Chrome_Grid")){
+				 cap.setBrowserName("chrome");
+				 cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
+			}
+			
+			try {
+				// hit the hub
+				driver = new RemoteWebDriver(new URL("http://localhost:4444"), cap);
+			} catch (Exception e) {
+			  e.printStackTrace();
+			}
 
-        } else if (browserName.equalsIgnoreCase("Edge")) {
-            System.setProperty("webdriver.edge.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\msedgedriver.exe");
-            //  System.setProperty(EdgeDriverService.EDGE_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
-            EdgeOptions options = new EdgeOptions();
-            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-            //options.setBinary(new File(""));
-            options.addArguments("--disable-notifications");
-            options.addArguments("--start-maximized");
-            options.addArguments("--remote-allow-origins=*");
-            driver = new EdgeDriver(options);
+            } else { //local machine
+            if (browserName.equalsIgnoreCase("Chrome")) {
+                System.setProperty("webdriver.chrome.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\chromedriver.exe");
+                ChromeOptions chOptions = new ChromeOptions();
+                chOptions.addArguments("--remote-allow-origins=*");
+                chOptions.addArguments("--disable-notifications");
+                chOptions.addArguments("--start-maximized");
+                chOptions.addArguments("--ignore-certificate-errors");
+                driver = new ChromeDriver(chOptions);
 
+            } else if (browserName.equalsIgnoreCase("Edge")) {
+                System.setProperty("webdriver.edge.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\msedgedriver.exe");
+                //  System.setProperty(EdgeDriverService.EDGE_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+                EdgeOptions options = new EdgeOptions();
+                options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                //options.setBinary(new File(""));
+                options.addArguments("--disable-notifications");
+                options.addArguments("--start-maximized");
+                options.addArguments("--remote-allow-origins=*");
+                driver = new EdgeDriver(options);
+            }
         }
+        {}
         // dynamic wait- not pause
         // global time out- all driver.findelement
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
@@ -274,15 +303,13 @@ public class ApplicationKeywords {
         log("Navigating to " + url);
     }
 
-        public void buildNumberSel() {
+    public void buildNumberSel() {
         Actions actions = new Actions(driver);
         WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
         actions.moveToElement(buildJobName).build().perform();
         actions.moveToElement(buildJobName, 25, 0).click().perform();
-        
+
     }
-
-
 
     public void quit() {
         String title = driver.getTitle();
@@ -376,11 +403,11 @@ public class ApplicationKeywords {
         //lkgetLocator(locaterKey);
         if (!isElementPresent(locatorKey)) {
             // report failure
-            log("Element not present "+locatorKey);
+            log("Element not present " + locatorKey);
         }
         //  check the visibility
         if (!isElementVisible(locatorKey)) {
-            log("Element not visible "+locatorKey);
+            log("Element not visible " + locatorKey);
         }
 
         WebElement e = driver.findElement(getLocator(locatorKey));

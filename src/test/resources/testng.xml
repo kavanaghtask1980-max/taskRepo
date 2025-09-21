@@ -1,5 +1,5 @@
 
-<suite name="New Jenkins build jobs local/remote" parallel = "tests">
+<suite name="New Jenkins build jobs local/remote">
 <listeners>
 <listener class-name="listener.MyTestNGListener"/>
 </listeners>
