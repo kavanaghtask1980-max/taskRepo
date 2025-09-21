@@ -7,7 +7,7 @@ import base.BaseTest;
 
 public class Session extends BaseTest {
 
-    String number = "16";
+    String number = "14";
 
     @Test
     public void hpBuildJobMenuNav(ITestContext context) {
