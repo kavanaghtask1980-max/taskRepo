@@ -244,7 +244,13 @@ public class ApplicationKeywords {
         signInBut.click();
         waitForPageToLoad();
         log("Navigating to " + url);
+        WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(buildJobName).build().perform();
+        waitForPageToLoad();
     }
+
+
 
     public void quit() {
         String title = driver.getTitle();
