@@ -83,6 +83,7 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testng1.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>
