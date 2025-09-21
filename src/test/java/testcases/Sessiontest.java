@@ -5,12 +5,12 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 
-public class Session1 extends BaseTest {
+public class Sessiontest extends BaseTest {
 
     String number = "19";
     
     @Test
-    public void jobChanges(ITestContext context) {
+    public void testNG1(ITestContext context) {
         app.log("jobChanges");
         app.buildNumberSel();
         app.hpSelectBuildJobPopMenu("Workspace");

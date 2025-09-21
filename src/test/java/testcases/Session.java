@@ -16,20 +16,20 @@ public class Session extends BaseTest {
         app.hpSelectBuildJobPopMenuOne("Changes");
         app.buildNumberSel();
         app.hpSelectBuildJobPopMenuOne("Workspace");
+        // // app.buildNumberSel();
+        // // app.hpSelectBuildJobPopMenuOne("Build Now");
         // app.buildNumberSel();
-        // app.hpSelectBuildJobPopMenuOne("Build Now");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenuOne("Configure");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenuOne("Delete Project");
+        // app.hpSelectBuildJobPopMenuOne("Configure");
         // app.buildNumberSel();
-        // app.hpSelectBuildJobPopMenuOne("Modules");
+        // app.hpSelectBuildJobPopMenuOne("Delete Project");
+        // // app.buildNumberSel();
+        // // app.hpSelectBuildJobPopMenuOne("Modules");
+        // // app.buildNumberSel();
+        // // app.hpSelectBuildJobPopMenuOne("GitHub");
         // app.buildNumberSel();
-        // app.hpSelectBuildJobPopMenuOne("GitHub");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenuOne("Rename");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenuOne("Credentials");
+        // app.hpSelectBuildJobPopMenuOne("Rename");
+        // app.buildNumberSel();
+        // app.hpSelectBuildJobPopMenuOne("Credentials");
     }
 
     

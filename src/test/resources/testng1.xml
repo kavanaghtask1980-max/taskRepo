@@ -1,20 +1,20 @@
 
-<suite name="New Jenkins build jobs local/remote">
+<suite name="testNG1">
 <listeners>
 <listener class-name="listener.MyTestNGListener"/>
 </listeners>
-<test name="Jenkins home builds page - jobChanges">
+<test name="testNG1">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.Sessiontest">
 <methods>
-<include name="jobChanges"/>
+<include name="testNG1"/>
 </methods>
 </class>
 </classes>
 </test>
 <test name="Jenkins home builds page - jobConsoleOutput">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.Sessiontest">
 <methods>
 <include name="jobConsoleOutput"/>
 </methods>
@@ -23,7 +23,7 @@
 </test>
 <test name="Jenkins home builds page - jobEditBuildInf">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.Sessiontest">
 <methods>
 <include name="jobEditBuildInf"/>
 </methods>
@@ -32,7 +32,7 @@
 </test>
 <test name="Jenkins home builds page - jobDeleteBuild">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.Sessiontest">
 <methods>
 <include name="jobDeleteBuild"/>
 </methods>
@@ -41,7 +41,7 @@
 </test> 
 <test name="Jenkins home builds page - jobTimings">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.Sessiontest">
 <methods>
 <include name="jobTimings"/>
 </methods>
