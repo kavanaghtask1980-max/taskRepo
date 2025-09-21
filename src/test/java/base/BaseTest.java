@@ -34,7 +34,7 @@ public class BaseTest {
     context.setAttribute("test", test);
     
     app.openBrowser("Chrome");
-    app.navigate("url"); 
+    
     }
 
     @BeforeMethod(alwaysRun = true)

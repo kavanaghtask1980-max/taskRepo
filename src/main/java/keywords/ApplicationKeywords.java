@@ -247,6 +247,8 @@ public class ApplicationKeywords {
         WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
         Actions actions = new Actions(driver);
         actions.moveToElement(buildJobName).build().perform();
+        WebElement openMenu = driver.findElement(By.cssSelector("a.jenkins-table__link.model-link.inside.model-link--open"));
+        openMenu.click();
         waitForPageToLoad();
     }
 

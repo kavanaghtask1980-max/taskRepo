@@ -7,12 +7,12 @@ import base.BaseTest;
 
 public class Session extends BaseTest {
 
-    String number = "1";
+    String number = "5";
 
     @Test
     public void hpBuildJobMenuNav(ITestContext context) {
         app.log("hpBuildJobMenuNav");
-        app.click("buildNameArrow_css");
+        app.navigate("url"); 
         app.hpSelectBuildJobPopMenuOne("Changes");
         // app.click("buildNameArrow_css");
         // app.hpSelectBuildJobPopMenuOne("Workspace");
