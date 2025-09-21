@@ -7,7 +7,7 @@ import base.BaseTest;
 
 public class Session extends BaseTest {
 
-    String number = "2";
+    String number = "15";
 
     @Test
     public void hpBuildJobMenuNav(ITestContext context) {
@@ -36,9 +36,9 @@ public class Session extends BaseTest {
     @Test
     public void jobChanges(ITestContext context) {
         app.log("jobChanges");
-        // app.buildNumberSel();
-        // app.hpSelectBuildJobPopMenuOne("Build Now");
         app.buildNumberSel();
+        // app.hpSelectBuildJobPopMenuOne("Build Now");
+        // app.buildNumberSel();
         app.hpSelectBuildJobPopMenu("Workspace");
         app.buildNumberMenu(number);
         app.hpSelectBuildJobPopMenu("Console Output");
