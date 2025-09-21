@@ -119,7 +119,7 @@ public class ApplicationKeywords {
 
     }
 
-    public void buildNumberMenu(String buildNumber) {
+    public void buildNumberMenu1(String buildNumber) {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         Actions actions = new Actions(driver);
@@ -145,6 +145,38 @@ public class ApplicationKeywords {
                 js.executeScript("javascript:arguments[0].click();", buildNumberButton);
                 waitForPageToLoad();
             }break;
+        }
+    }
+
+        public void buildNumberMenu(String buildNumber) {
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        Actions actions = new Actions(driver);
+
+        WebElement buildNumberNav = driver.findElement(By.cssSelector("div.app-builds-container__items"));
+        List<WebElement> buildMenuButtons = buildNumberNav.findElements(By.cssSelector("button.jenkins-card__reveal.jenkins-jumplist-link"));
+
+        List<WebElement> buildInnerText = buildNumberNav.findElements(By.cssSelector("a.app-builds-container__item__inner__link"));
+
+        int numberOfBuildButtons = buildMenuButtons.size();
+        log("builds available: " + numberOfBuildButtons);
+
+        for (int i = 1; i < buildMenuButtons.size(); i++) {
+
+            String buildInnerTextRecordAtt = buildInnerText.get(i).getAttribute("href");
+            WebElement buildNumberButton = buildMenuButtons.get(i);
+            
+            log("Build number / Details: " + buildInnerTextRecordAtt);
+            log("loop number: " + i);
+
+            actions.moveToElement(buildNumberButton).build().perform();
+            
+            if(buildInnerTextRecordAtt.contains(buildNumber)){
+                js.executeScript("javascript:arguments[0].click();", buildNumberButton);
+                waitForPageToLoad();
+                takeScreenShot();
+               break;
+             }
         }
     }
 
