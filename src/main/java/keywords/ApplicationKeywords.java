@@ -293,13 +293,13 @@ public class ApplicationKeywords {
         driver.get(envProp.getProperty(url));
         String title = driver.getTitle();
         log("Page Title => " + title);
-        // WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
-        // WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
-        // WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
-        // userName.sendKeys("kavanaghtom1980");
-        // passWord.sendKeys("Desire97!");
-        // signInBut.click();
-        // waitForPageToLoad();
+        WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
+        WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
+        WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
+        userName.sendKeys("kavanaghtom1980");
+        passWord.sendKeys("Desire97!");
+        signInBut.click();
+        waitForPageToLoad();
         log("Navigating to " + url);
     }
 

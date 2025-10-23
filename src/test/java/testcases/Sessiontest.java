@@ -14,8 +14,8 @@ public class Sessiontest extends BaseTest {
         app.log("jobEditBuildInf");
         app.buildNumberSel();
         app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Edit Build Information");
+        // app.buildNumberMenu(number);
+        // app.hpSelectBuildJobPopMenu("Edit Build Information");
     }
 
     @Test

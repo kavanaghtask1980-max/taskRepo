@@ -36,9 +36,9 @@ public class Session extends BaseTest {
         public void jobChanges(ITestContext context) {
         app.log("jobChanges");
         app.buildNumberSel();
-        // app.hpSelectBuildJobPopMenu("Workspace");
-        // app.buildNumberMenu(number);
-        // app.hpSelectBuildJobPopMenu("Changes");
+        app.hpSelectBuildJobPopMenu("Workspace");
+        app.buildNumberMenu(number);
+        app.hpSelectBuildJobPopMenu("Changes");
     }
     
     // @Test
