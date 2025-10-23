@@ -1,5 +1,6 @@
 
-<suite name="testNG1" parallel="tests">
+<suite name="Smoke">
+<!-- <suite name="testNG1" parallel="tests"> -->
 <listeners>
 <listener class-name="listener.MyTestNGListener"/>
 </listeners>

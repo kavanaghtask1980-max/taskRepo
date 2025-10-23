@@ -7,7 +7,7 @@ import base.BaseTest;
 
 public class testOrder0 extends BaseTest {
 
-    String number = "29";
+    String number = "24";
     
     @Test
     public void jobEditBuildInf(ITestContext context) {
