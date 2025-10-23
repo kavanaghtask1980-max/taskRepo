@@ -5,7 +5,7 @@
 </listeners>
 <test name="Jenkins home builds page - hpBuildJobMenuNav">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.testOrder1">
 <methods>
 <include name="hpBuildJobMenuNav"/>
 </methods>
@@ -14,7 +14,7 @@
 </test>
 <test name="jobChanges">
 <classes>
-<class name="testcases.Session">
+<class name="testcases.testOrder1">
 <methods>
 <include name="jobChanges"/>
 </methods>

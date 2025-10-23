@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 
-public class Sessiontest extends BaseTest {
+public class testOrder0 extends BaseTest {
 
     String number = "29";
     
