@@ -82,8 +82,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/testng1.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testngOrder0.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testngOrder1.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>

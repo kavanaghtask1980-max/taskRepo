@@ -14,8 +14,8 @@ public class Sessiontest extends BaseTest {
         app.log("jobEditBuildInf");
         app.buildNumberSel();
         app.hpSelectBuildJobPopMenu("Workspace");
-        // app.buildNumberMenu(number);
-        // app.hpSelectBuildJobPopMenu("Edit Build Information");
+        app.buildNumberMenu(number);
+        app.hpSelectBuildJobPopMenu("Edit Build Information");
     }
 
     @Test
@@ -26,14 +26,5 @@ public class Sessiontest extends BaseTest {
         app.buildNumberMenu(number);
         app.hpSelectBuildJobPopMenu("Delete build");
     }
-
-    // @Test
-    // public void jobTimings(ITestContext context){
-    //     app.log("jobTimings");
-    //     app.buildNumberSel();
-    //     app.hpSelectBuildJobPopMenu("Workspace");
-    //     app.buildNumberMenu(number);
-    //     app.hpSelectBuildJobPopMenu("Timings");
-    // }
 
  }
