@@ -5,7 +5,7 @@
 </listeners>
 <test name="Jenkins home builds page - jobEditBuildInf">
 <classes>
-<class name="testcases.Sessiontest">
+<class name="testcases.testOrder0">
 <methods>
 <include name="jobEditBuildInf"/>
 </methods>
@@ -14,21 +14,12 @@
 </test>
 <test name="Jenkins home builds page - jobDeleteBuild">
 <classes>
-<class name="testcases.Sessiontest">
+<class name="testcases.testOrder1">
 <methods>
 <include name="jobDeleteBuild"/>
 </methods>
 </class>
 </classes>
 </test> 
-<!-- <test name="Jenkins home builds page - jobTimings">
-<classes>
-<class name="testcases.Sessiontest">
-<methods>
-<include name="jobTimings"/>
-</methods>
-</class>
-</classes>
-</test>   -->
 </suite>
 <!--  Suite  -->
