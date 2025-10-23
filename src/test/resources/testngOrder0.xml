@@ -1,4 +1,3 @@
-
 <suite name="Smoke">
 <!-- <suite name="testNG1" parallel="tests"> -->
 <listeners>
@@ -15,7 +14,7 @@
 </test>
 <test name="Jenkins home builds page - jobDeleteBuild">
 <classes>
-<class name="testcases.testOrder1">
+<class name="testcases.testOrder0">
 <methods>
 <include name="jobDeleteBuild"/>
 </methods>
@@ -24,3 +23,4 @@
 </test> 
 </suite>
 <!--  Suite  -->
+
