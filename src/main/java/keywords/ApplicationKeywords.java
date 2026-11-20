@@ -443,4 +443,35 @@ public class ApplicationKeywords {
         waitForPageToLoad();
     }
 
+        public void createFreestyleJob(String jobName, String description) {
+        log("Creating Freestyle job: " + jobName);
+        getElement("newItem_css").click();
+        getElement("newItemName_css").sendKeys(jobName);
+        getElement("freestyleProject_xpath").click();
+        getElement("newItemOkBtn_id").click();
+        waitForPageToLoad();
+
+        WebElement descBox = getElement("jobDescription_name");
+        descBox.clear();
+        descBox.sendKeys(description);
+        getElement("jobSaveBtn_css").click();
+        waitForPageToLoad();
+    }
+
+    public void deleteCurrentJob() {
+        log("Deleting current Jenkins job...");
+        getElement("deleteProjectLink_css").click();
+        getElement("confirmDeleteBtn_css").click();
+        waitForPageToLoad();
+    }
+
+    public boolean isJobListedOnDashboard(String jobName) {
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        boolean found = !driver.findElements(
+            By.xpath("//tr[@id='job_" + jobName + "']")
+        ).isEmpty();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        return found;
+    }
+
 }

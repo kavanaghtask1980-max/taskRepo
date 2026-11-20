@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="JenkinsJobLifecycleSuite">
+    <listeners>
+        <listener class-name="listener.MyTestNGListener" />
+    </listeners>
+
+    <test name="Lifecycle - Create and Delete Freestyle Job">
+        <classes>
+            <class name="testcases.JobLifecycleTests" />
+        </classes>
+    </test>
+</suite>
