@@ -7,7 +7,7 @@ import base.BaseTest;
 
 public class testngOrder0 extends BaseTest {
 
-    String number = "41";
+    String number = "51";
     
     @Test
     public void jobEditBuildInf(ITestContext context) {
