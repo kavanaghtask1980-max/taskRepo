@@ -82,8 +82,8 @@
                 <version>3.5.2</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testngOrder0.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/testngOrder1.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/smokeSuite.xml</suiteXmlFile>
+                        <!-- <suiteXmlFile>src/test/resources/testngOrder1.xml</suiteXmlFile> -->
                     </suiteXmlFiles>
                     <properties>
                         <property>

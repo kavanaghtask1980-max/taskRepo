@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <suite name="JenkinsSmokeSuite" parallel="tests" thread-count="2"> -->
+<suite name="JenkinsSmokeSuite">
+    <listeners>
+        <listener class-name="listener.MyTestNGListener" />
+    </listeners>
+
+    <test name="Smoke - Dashboard &amp; Navigation">
+        <classes>
+            <class name="testcases.JenkinsSmokeTests">
+                <methods>
+                    <include name="verifyDashboardAndAuth" />
+                    <include name="verifyNewItemPageNavigation" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Smoke - Global Search">
+        <classes>
+            <class name="testcases.JenkinsSmokeTests">
+                <methods>
+                    <include name="verifyGlobalSearch" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

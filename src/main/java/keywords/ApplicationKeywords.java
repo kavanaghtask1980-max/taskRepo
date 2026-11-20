@@ -425,4 +425,22 @@ public class ApplicationKeywords {
         return by;
     }
 
+    public String getPageTitle() {
+        return driver.getTitle();
+    }
+
+    public boolean isMenuLinkDisplayed(String locatorKey) {
+        return isElementPresent(locatorKey) && getElement(locatorKey).isDisplayed();
+    }
+
+     public void searchJenkins(String query) {
+        log("Searching Jenkins for: " + query);
+        getElement("searchButton_id").click();
+        WebElement searchInput = getElement("searchInput_css");
+        searchInput.sendKeys(query);
+        wait(1);
+        searchInput.sendKeys(org.openqa.selenium.Keys.ENTER);
+        waitForPageToLoad();
+    }
+
 }
