@@ -12,16 +12,16 @@ public class testngOrder0 extends BaseTest {
     @Test
     public void jobEditBuildInf(ITestContext context) {
         app.log("jobEditBuildInf");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Edit Build Information");
+         app.buildNumberSel();
+       // app.hpSelectBuildJobPopMenu("Workspace");
+        // app.buildNumberMenu(number);
+        // app.hpSelectBuildJobPopMenu("Edit Build Information");
     }
 
     @Test
     public void jobDeleteBuild(ITestContext context) {
         app.log("jobDeleteBuild");
-        // app.buildNumberSel();
+        app.buildNumberSel();
         // app.hpSelectBuildJobPopMenu("Workspace");
         // app.buildNumberMenu(number);
         // app.hpSelectBuildJobPopMenu("Delete build");

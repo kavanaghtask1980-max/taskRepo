@@ -38,6 +38,7 @@ public class BaseTest {
     }
 
     @BeforeMethod(alwaysRun = true)
+    
     public void BeforeMethod(ITestContext context){
     test.log(Status.INFO, "In BeforeMethod");
     test = (ExtentTest)context.getAttribute("test");
@@ -56,7 +57,7 @@ public class BaseTest {
     @AfterTest(alwaysRun = true)
     public void quit(ITestContext context){
       app = (ApplicationKeywords)context.getAttribute("app");
-      app.quit();
+     // app.quit();
       test.log(Status.INFO, "Test Finished" );
       if(rep != null)rep.flush();
       

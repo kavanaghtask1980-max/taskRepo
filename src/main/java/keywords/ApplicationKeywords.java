@@ -1,13 +1,14 @@
 package keywords;
 
 import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
+
+import config.ConfigManager;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -37,28 +38,11 @@ import reports.ExtentManager;
 public class ApplicationKeywords {
 
     public WebDriver driver;
-    public Properties prop;
-    public Properties envProp;
     public ExtentTest test;
     public SoftAssert softAssert;
 
     public ApplicationKeywords() {
-
-        String path = System.getProperty("user.dir") + "//src//test//resources//env.properties";
-        prop = new Properties();
-        envProp = new Properties();
-        try {
-            FileInputStream fs = new FileInputStream(path);
-            prop.load(fs);
-            String env = prop.getProperty("env") + ".properties";
-            path = System.getProperty("user.dir") + "//src//test//resources//" + env;
-            fs = new FileInputStream(path);
-            envProp.load(fs);
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
+        
         softAssert = new SoftAssert();
     }
 
@@ -232,32 +216,25 @@ public class ApplicationKeywords {
         // 	}
     }
 
-    public void openBrowser(String browserName) {
-       
+        public void openBrowser(String browserName) {
         log("Opening the browser " + browserName);
 
-        if(prop.get("grid_run").equals("Y")) {
-			
-			DesiredCapabilities cap=new DesiredCapabilities();
-			if(browserName.equals("Mozilla")){
-				
-				cap.setBrowserName("edge");
-				//cap.setJavascriptEnabled(true);
-				cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
-				
-			}else if(browserName.equals("Chrome_Grid")){
-				 cap.setBrowserName("chrome");
-				 cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
-			}
-			
-			try {
-				// hit the hub
-				driver = new RemoteWebDriver(new URL("http://localhost:4444"), cap);
-			} catch (Exception e) {
-			  e.printStackTrace();
-			}
+        if ("Y".equalsIgnoreCase(ConfigManager.getLocator("grid_run"))) {
+            DesiredCapabilities cap = new DesiredCapabilities();
+            if (browserName.equals("Mozilla")) {
+                cap.setBrowserName("edge");
+                cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
+            } else if (browserName.equals("Chrome_Grid")) {
+                cap.setBrowserName("chrome");
+                cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
+            }
 
-            } else { //local machine
+            try {
+                driver = new RemoteWebDriver(new URL("http://localhost:4444"), cap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
             if (browserName.equalsIgnoreCase("Chrome")) {
                 ChromeOptions chOptions = new ChromeOptions();
                 chOptions.addArguments("--remote-allow-origins=*");
@@ -265,47 +242,46 @@ public class ApplicationKeywords {
                 chOptions.addArguments("--start-maximized");
                 chOptions.addArguments("--ignore-certificate-errors");
                 driver = new ChromeDriver(chOptions);
-
             } else if (browserName.equalsIgnoreCase("Edge")) {
-                //System.setProperty("webdriver.edge.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\msedgedriver.exe");
                 EdgeOptions options = new EdgeOptions();
                 options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-                //options.setBinary(new File(""));
                 options.addArguments("--disable-notifications");
                 options.addArguments("--start-maximized");
                 options.addArguments("--remote-allow-origins=*");
                 driver = new EdgeDriver(options);
             }
         }
-        {}
-        // dynamic wait- not pause
-        // global time out- all driver.findelement
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
+    
 
-    public void navigate(String url) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+     public void navigate(String url) {
         log("Navigating to " + url);
-        driver.get(envProp.getProperty(url));
-        String title = driver.getTitle();
-        log("Page Title => " + title);
-        // WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
-        // WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
-        // WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
-        // userName.sendKeys("kavanaghtom1980");
-        // passWord.sendKeys("Desire97!");
-        // signInBut.click();
-        // waitForPageToLoad();
-        // log("Navigating to " + url);
+        driver.get(ConfigManager.getEnv(url));
+        log("Page Title => " + driver.getTitle());
+
+        // Instant 0-second check: only logs in if login box is on screen
+        if (!driver.findElements(getLocator("loginUser_id")).isEmpty()) {
+            log("Login screen detected - signing in...");
+            getElement("loginUser_id").sendKeys(ConfigManager.getEnv("jenkinsUser"));
+            getElement("loginPass_id").sendKeys(ConfigManager.getEnv("jenkinsPass"));
+            getElement("loginSubmit_css").click();
+            waitForPageToLoad();
+        } else {
+            log("Already logged in.");
+        }
     }
 
     public void buildNumberSel() {
-        Actions actions = new Actions(driver);
-        WebElement buildJobName = driver.findElement(By.xpath("//a[@href='job/test001/']"));
-        actions.moveToElement(buildJobName).build().perform();
-        actions.moveToElement(buildJobName, 25, 0).click().perform();
-
-    }
+    Actions actions = new Actions(driver);
+    WebElement job = driver.findElement(By.xpath("//a[@href='job/test001/']"));
+    WebElement chevron = driver.findElement(By.xpath("//tr[@id='job_test001']//button"));
+    actions.moveToElement(job)
+           .moveToElement(chevron)
+           .click()
+           .perform();
+}
 
     public void quit() {
         String title = driver.getTitle();
@@ -438,17 +414,16 @@ public class ApplicationKeywords {
     public By getLocator(String locatorKey) {
         By by = null;
         if (locatorKey.endsWith("_id")) {
-            by = By.id(prop.getProperty(locatorKey));
+            by = By.id(ConfigManager.getLocator(locatorKey));
         } else if (locatorKey.endsWith("_xpath")) {
-            by = By.xpath(prop.getProperty(locatorKey));
+            by = By.xpath(ConfigManager.getLocator(locatorKey));
         } else if (locatorKey.endsWith("_css")) {
-            by = By.cssSelector(prop.getProperty(locatorKey));
+            by = By.cssSelector(ConfigManager.getLocator(locatorKey));
         } else if (locatorKey.endsWith("_name")) {
-            by = By.name(prop.getProperty(locatorKey));
+            by = By.name(ConfigManager.getLocator(locatorKey));
         }
 
         return by;
-
     }
 
 }

@@ -1,4 +1,4 @@
-<suite name="testngOrder0" parallel="tests" thread-count="2">
+<suite name="testngOrder0">
     <listeners>
         <listener class-name="listener.MyTestNGListener"/>
     </listeners>
@@ -21,4 +21,3 @@
         </classes>
     </test>
 </suite>
-<!--  Suite  -->
