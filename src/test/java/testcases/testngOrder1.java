@@ -7,7 +7,7 @@ import base.BaseTest;
 
 public class testngOrder1 extends BaseTest {
 
-    String number = "41";
+    String number = "54";
 
     @Test
     public void hpBuildJobMenuNav(ITestContext context) {
