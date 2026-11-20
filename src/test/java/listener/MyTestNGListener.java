@@ -2,7 +2,6 @@ package listener;
 
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;

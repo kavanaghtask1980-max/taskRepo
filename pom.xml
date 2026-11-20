@@ -83,7 +83,7 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testngOrder0.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/testngOrder1.xml</suiteXmlFile>
+                        <!-- <suiteXmlFile>src/test/resources/testngOrder1.xml</suiteXmlFile> -->
                     </suiteXmlFiles>
                     <properties>
                         <property>

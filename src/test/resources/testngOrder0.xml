@@ -1,26 +1,24 @@
-<suite name="Smoke">
-<!-- <suite name="testNG1" parallel="tests"> -->
-<listeners>
-<listener class-name="listener.MyTestNGListener"/>
-</listeners>
-<test name="Jenkins home builds page - jobEditBuildInf">
-<classes>
-<class name="testcases.testOrder0">
-<methods>
-<include name="jobEditBuildInf"/>
-</methods>
-</class>
-</classes>
-</test>
-<test name="Jenkins home builds page - jobDeleteBuild">
-<classes>
-<class name="testcases.testOrder0">
-<methods>
-<include name="jobDeleteBuild"/>
-</methods>
-</class>
-</classes>
-</test> 
+<suite name="testngOrder0" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="listener.MyTestNGListener"/>
+    </listeners>
+    <test name="Jenkins home builds page - jobEditBuildInf">
+        <classes>
+            <class name="testcases.testngOrder0">
+                <methods>
+                    <include name="jobEditBuildInf"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Jenkins home builds page - jobDeleteBuild">
+        <classes>
+            <class name="testcases.testngOrder0">
+                <methods>
+                    <include name="jobDeleteBuild"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
 <!--  Suite  -->
-

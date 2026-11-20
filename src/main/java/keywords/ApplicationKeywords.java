@@ -236,8 +236,6 @@ public class ApplicationKeywords {
        
         log("Opening the browser " + browserName);
 
-        
-      
         if(prop.get("grid_run").equals("Y")) {
 			
 			DesiredCapabilities cap=new DesiredCapabilities();
@@ -261,7 +259,6 @@ public class ApplicationKeywords {
 
             } else { //local machine
             if (browserName.equalsIgnoreCase("Chrome")) {
-                System.setProperty("webdriver.chrome.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\chromedriver.exe");
                 ChromeOptions chOptions = new ChromeOptions();
                 chOptions.addArguments("--remote-allow-origins=*");
                 chOptions.addArguments("--disable-notifications");
@@ -270,8 +267,7 @@ public class ApplicationKeywords {
                 driver = new ChromeDriver(chOptions);
 
             } else if (browserName.equalsIgnoreCase("Edge")) {
-                System.setProperty("webdriver.edge.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\msedgedriver.exe");
-                //  System.setProperty(EdgeDriverService.EDGE_DRIVER_SILENT_OUTPUT_PROPERTY, "true");
+                //System.setProperty("webdriver.edge.driver", "C:\\Users\\kavan\\Automation_Task\\demo\\msedgedriver.exe");
                 EdgeOptions options = new EdgeOptions();
                 options.setPageLoadStrategy(PageLoadStrategy.EAGER);
                 //options.setBinary(new File(""));
@@ -293,14 +289,14 @@ public class ApplicationKeywords {
         driver.get(envProp.getProperty(url));
         String title = driver.getTitle();
         log("Page Title => " + title);
-        WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
-        WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
-        WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
-        userName.sendKeys("kavanaghtom1980");
-        passWord.sendKeys("Desire97!");
-        signInBut.click();
-        waitForPageToLoad();
-        log("Navigating to " + url);
+        // WebElement userName = driver.findElement(By.cssSelector("input#j_username"));
+        // WebElement passWord = driver.findElement(By.cssSelector("input#j_password"));
+        // WebElement signInBut = driver.findElement(By.cssSelector("button.jenkins-button.jenkins-button--primary"));
+        // userName.sendKeys("kavanaghtom1980");
+        // passWord.sendKeys("Desire97!");
+        // signInBut.click();
+        // waitForPageToLoad();
+        // log("Navigating to " + url);
     }
 
     public void buildNumberSel() {

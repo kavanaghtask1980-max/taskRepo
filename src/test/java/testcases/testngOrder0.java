@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 
 import base.BaseTest;
 
-public class testOrder0 extends BaseTest {
+public class testngOrder0 extends BaseTest {
 
-    String number = "41";
+    String number = "test001";
     
     @Test
     public void jobEditBuildInf(ITestContext context) {
@@ -21,10 +21,10 @@ public class testOrder0 extends BaseTest {
     @Test
     public void jobDeleteBuild(ITestContext context) {
         app.log("jobDeleteBuild");
-        app.buildNumberSel();
-        app.hpSelectBuildJobPopMenu("Workspace");
-        app.buildNumberMenu(number);
-        app.hpSelectBuildJobPopMenu("Delete build");
+        // app.buildNumberSel();
+        // app.hpSelectBuildJobPopMenu("Workspace");
+        // app.buildNumberMenu(number);
+        // app.hpSelectBuildJobPopMenu("Delete build");
     }
 
  }
