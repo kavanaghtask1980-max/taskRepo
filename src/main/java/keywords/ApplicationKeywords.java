@@ -1,14 +1,11 @@
 package keywords;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-
-import config.ConfigManager;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -33,6 +30,7 @@ import org.testng.asserts.SoftAssert;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+import config.ConfigManager;
 import reports.ExtentManager;
 
 public class ApplicationKeywords {
@@ -273,15 +271,16 @@ public class ApplicationKeywords {
         }
     }
 
-    public void buildNumberSel() {
-    Actions actions = new Actions(driver);
-    WebElement job = driver.findElement(By.xpath("//a[@href='job/test001/']"));
-    WebElement chevron = driver.findElement(By.xpath("//tr[@id='job_test001']//button"));
-    actions.moveToElement(job)
-           .moveToElement(chevron)
-           .click()
-           .perform();
-}
+   public void buildNumberSel() {
+        WebElement job = driver.findElement(By.xpath("//a[@href='job/test001/']"));
+        WebElement chevron = driver.findElement(
+            By.xpath("//tr[@id='job_test001']//button[contains(@class,'jenkins-menu-dropdown-chevron')]")
+        );
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(job).perform();
+        chevron.click();
+    }
 
     public void quit() {
         String title = driver.getTitle();

@@ -57,7 +57,7 @@ public class BaseTest {
     @AfterTest(alwaysRun = true)
     public void quit(ITestContext context){
       app = (ApplicationKeywords)context.getAttribute("app");
-     // app.quit();
+      app.quit();
       test.log(Status.INFO, "Test Finished" );
       if(rep != null)rep.flush();
       
