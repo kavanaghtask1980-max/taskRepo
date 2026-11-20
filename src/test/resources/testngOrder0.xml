@@ -12,7 +12,7 @@
             </class>
         </classes>
     </test>
-    <!-- <test name="Jenkins home builds page - jobDeleteBuild">
+    <test name="Jenkins home builds page - jobDeleteBuild">
         <classes>
             <class name="testcases.testngOrder0">
                 <methods>
@@ -20,5 +20,5 @@
                 </methods>
             </class>
         </classes>
-    </test> -->
+    </test>
 </suite>
