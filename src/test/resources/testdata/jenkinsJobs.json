@@ -15,6 +15,6 @@
     "testName": "Disabled Sample Job Row",
     "jobPrefix": "auto-freestyle-skip",
     "description": "Skipped automatically because runMode is set to N",
-    "runMode": "Y"
+    "runMode": "N"
   }
 ]
