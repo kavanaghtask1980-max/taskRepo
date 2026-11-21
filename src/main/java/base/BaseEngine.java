@@ -2,7 +2,6 @@ package base;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.time.Duration;
 import java.util.Date;
 
@@ -10,18 +9,11 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
@@ -31,6 +23,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 import config.ConfigManager;
+import driver.DriverFactory;
 import reports.ExtentManager;
 
 public class BaseEngine {
@@ -48,57 +41,16 @@ public class BaseEngine {
     }
 
     public void openBrowser(String browserName) {
-        log("Opening the browser: " + browserName);
-        boolean isHeadless = "Y".equalsIgnoreCase(ConfigManager.getLocator("headless"));
-
-        if ("Y".equalsIgnoreCase(ConfigManager.getLocator("grid_run"))) {
-            DesiredCapabilities cap = new DesiredCapabilities();
-            if (browserName.equalsIgnoreCase("Mozilla") || browserName.equalsIgnoreCase("Edge")) {
-                cap.setBrowserName("edge");
-                cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
-            } else if (browserName.equalsIgnoreCase("Chrome_Grid") || browserName.equalsIgnoreCase("Chrome")) {
-                cap.setBrowserName("chrome");
-                cap.setPlatform(org.openqa.selenium.Platform.WINDOWS);
-            }
-
-            try {
-                driver = new RemoteWebDriver(URI.create("http://localhost:4444").toURL(), cap);
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to connect to Selenium Grid", e);
-            }
-        } else {
-            if (browserName.equalsIgnoreCase("Chrome")) {
-                ChromeOptions chOptions = new ChromeOptions();
-                chOptions.addArguments("--remote-allow-origins=*");
-                chOptions.addArguments("--disable-notifications");
-                chOptions.addArguments("--ignore-certificate-errors");
-                if (isHeadless) {
-                    chOptions.addArguments("--headless=new", "--window-size=1920,1080");
-                } else {
-                    chOptions.addArguments("--start-maximized");
-                }
-                driver = new ChromeDriver(chOptions);
-
-            } else if (browserName.equalsIgnoreCase("Edge")) {
-                EdgeOptions options = new EdgeOptions();
-                options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-                options.addArguments("--disable-notifications");
-                options.addArguments("--remote-allow-origins=*");
-                if (isHeadless) {
-                    options.addArguments("--headless=new", "--window-size=1920,1080");
-                } else {
-                    options.addArguments("--start-maximized");
-                }
-                driver = new EdgeDriver(options);
-            }
-        }
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-
-        // Initialize reusable core helpers once per session
+        log("Opening browser [" + browserName + "] | Headless=" + ConfigManager.getLocator("headless")
+                + " | Grid=" + ConfigManager.getLocator("grid_run"));
+        driver = DriverFactory.initDriver(browserName);
         wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         actions = new Actions(driver);
         js = (JavascriptExecutor) driver;
+    }
+
+    public void quit() {
+        DriverFactory.quitDriver();
     }
 
     // --- Reusable Core Interaction Helpers ---
@@ -215,11 +167,5 @@ public class BaseEngine {
     public void assertAll() {
         Reporter.getCurrentTestResult().getTestContext().setAttribute("softAssert", softAssert);
         softAssert.assertAll();
-    }
-
-    public void quit() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }
