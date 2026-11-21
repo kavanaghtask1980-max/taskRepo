@@ -1,29 +1,22 @@
 package testcases;
 
-import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.Test;
 
 import base.BaseTest;
-import testdata.JsonDataProvider;
 
 public class JenkinsResetTests extends BaseTest {
 
-    @Test(
-        dataProvider = "seedJobData",
-        dataProviderClass = JsonDataProvider.class,
-        description = "Seed baseline Freestyle jobs onto Jenkins dashboard"
-    )
-    public void seedBaselineJob(JSONObject data, ITestContext context) {
-        String jobName = (String) data.get("jobName");
-        String description = (String) data.get("description");
+    @Test(description = "Wipe all non-CI jobs to restore Jenkins to a clean vanilla state")
+    public void resetEnvironmentToVanillaState(ITestContext context) {
+        String protectedCiJob = "test001";
 
-        app.seedFreestyleJob(jobName, description);
+        app.resetJenkinsToVanillaState(protectedCiJob);
 
         Assert.assertTrue(
-            app.isJobListedOnDashboard(jobName),
-            "Expected seeded job '" + jobName + "' to be saved on Jenkins dashboard"
+            app.isJobListedOnDashboard(protectedCiJob),
+            "Expected protected CI runner job '" + protectedCiJob + "' to remain intact"
         );
     }
 }

@@ -147,4 +147,33 @@ public class ApplicationKeywords extends BaseEngine {
             }
         }
     }
+
+    // <---->
+
+        public void resetJenkinsToVanillaState(String protectedJobName) {
+        log("Resetting Jenkins dashboard to vanilla state (preserving: " + protectedJobName + ")");
+        driver.get(ConfigManager.getEnv("url"));
+        waitForPageToLoad();
+
+        List<WebElement> jobRows = driver.findElements(By.cssSelector("tr[id^='job_']"));
+        List<String> jobsToDelete = new java.util.ArrayList<>();
+
+        for (WebElement row : jobRows) {
+            String rowId = row.getAttribute("id");
+            if (rowId != null) {
+                String jobName = rowId.replace("job_", "");
+                if (!jobName.equalsIgnoreCase(protectedJobName)) {
+                    jobsToDelete.add(jobName);
+                }
+            }
+        }
+
+        for (String jobName : jobsToDelete) {
+            log("Cleaning up job: " + jobName);
+            driver.get(ConfigManager.getEnv("url") + "job/" + jobName + "/");
+            deleteCurrentJob();
+        }
+        log("Jenkins reset complete. Removed " + jobsToDelete.size() + " jobs.");
+    }
+
 }
