@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!-- EXECUTION MODE: Uncomment parallel suite below to run tests in tandem -->
+<!-- Note: CLI override (-Dbrowser=Edge) always takes top priority         -->
+<!-- ===================================================================== -->
 <!-- <suite name="JenkinsSmokeSuite" parallel="tests" thread-count="2"> -->
 <suite name="JenkinsSmokeSuite">
-    <listeners>jnhg 
+
+    <!-- ================================================================= -->
+    <!-- SUITE-LEVEL BROWSER: Applies to ALL <test> blocks below           -->
+    <!-- Leave commented out to use @Optional("Chrome") default            -->
+    <!-- ================================================================= -->
+    <parameter name="browser" value="Edge" />
+
+    <listeners>
         <listener class-name="listener.MyTestNGListener" />
     </listeners>
 
     <test name="Smoke - Dashboard &amp; Navigation">
+        <!-- TEST-LEVEL BROWSER: Overrides suite browser for this block only -->
+        <!-- <parameter name="browser" value="Chrome" /> -->
+
         <classes>
             <class name="testcases.JenkinsSmokeTests">
                 <methods>
@@ -17,6 +32,9 @@
     </test>
 
     <test name="Smoke - Global Search">
+        <!-- TEST-LEVEL BROWSER: Run Edge here while Test 1 runs Chrome! -->
+        <!-- <parameter name="browser" value="Edge" /> -->
+
         <classes>
             <class name="testcases.JenkinsSmokeTests">
                 <methods>
@@ -25,4 +43,5 @@
             </class>
         </classes>
     </test>
+
 </suite>

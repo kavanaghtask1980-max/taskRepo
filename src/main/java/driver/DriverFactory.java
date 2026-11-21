@@ -4,13 +4,11 @@ import java.net.URI;
 import java.time.Duration;
 
 import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import config.ConfigManager;
@@ -20,14 +18,17 @@ public class DriverFactory {
     private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
 
     public static WebDriver initDriver(String browserName) {
+        String fallbackBrowser = (browserName == null || browserName.isBlank()) ? "Chrome" : browserName;
+        String targetBrowser = System.getProperty("browser", fallbackBrowser);
+
         boolean isHeadless = "Y".equalsIgnoreCase(ConfigManager.getLocator("headless"));
         boolean isGrid = "Y".equalsIgnoreCase(ConfigManager.getLocator("grid_run"));
         WebDriver driver;
 
         if (isGrid) {
-            driver = createRemoteDriver(browserName, isHeadless);
+            driver = createRemoteDriver(targetBrowser, isHeadless);
         } else {
-            driver = createLocalDriver(browserName, isHeadless);
+            driver = createLocalDriver(targetBrowser, isHeadless);
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
@@ -48,7 +49,6 @@ public class DriverFactory {
             return new EdgeDriver(options);
         }
 
-        // Default to Chrome
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*", "--disable-notifications", "--ignore-certificate-errors");
         if (isHeadless) {
@@ -72,7 +72,7 @@ public class DriverFactory {
             }
 
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--no-sandbox", "--disable-dev-shm-usage"); // Essential for Docker containers!
+            options.addArguments("--no-sandbox", "--disable-dev-shm-usage");
             if (isHeadless) options.addArguments("--headless=new", "--window-size=1920,1080");
             return new RemoteWebDriver(URI.create(gridUrl).toURL(), options);
         } catch (Exception e) {

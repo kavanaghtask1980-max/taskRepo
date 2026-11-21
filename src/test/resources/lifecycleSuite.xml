@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ===================================================================== -->
+<!-- EXECUTION MODE: Uncomment parallel suite below to run Chrome & Edge   -->
+<!-- Safe for parallel runs: each test generates a unique timestamped job  -->
+<!-- Note: CLI override (-Dbrowser=Edge) always takes top priority         -->
+<!-- ===================================================================== -->
+<!-- <suite name="JenkinsJobLifecycleSuite" parallel="tests" thread-count="2"> -->
 <suite name="JenkinsJobLifecycleSuite">
+
+    <!-- ================================================================= -->
+    <!-- SUITE-LEVEL BROWSER: Applies to ALL <test> blocks below           -->
+    <!-- Leave commented out to use @Optional("Chrome") default            -->
+    <!-- ================================================================= -->
+    <!-- <parameter name="browser" value="Edge" /> -->
+
     <listeners>
         <listener class-name="listener.MyTestNGListener" />
     </listeners>
 
-    <test name="Lifecycle - Create and Delete Freestyle Job">
+    <test name="Lifecycle - Freestyle Job (Chrome)">
+        <!-- TEST-LEVEL BROWSER: Overrides suite browser for this block only -->
+        <!-- <parameter name="browser" value="Chrome" /> -->
+
         <classes>
             <class name="testcases.JobLifecycleTests" />
         </classes>
     </test>
+
+    <!-- ================================================================= -->
+    <!-- OPTIONAL PARALLEL CROSS-BROWSER BLOCK: Uncomment with parallel    -->
+    <!-- suite above to create & delete jobs on Chrome and Edge at once    -->
+    <!-- ================================================================= -->
+    <!--
+    <test name="Lifecycle - Freestyle Job (Edge)">
+        <parameter name="browser" value="Edge" />
+        <classes>
+            <class name="testcases.JobLifecycleTests" />
+        </classes>
+    </test>
+    -->
+
 </suite>

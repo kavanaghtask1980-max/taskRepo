@@ -10,6 +10,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+import config.ConfigManager;
 import keywords.ApplicationKeywords;
 import reports.ExtentManager;
 
@@ -22,44 +23,47 @@ public class BaseTest {
     @BeforeTest(alwaysRun = true)
     public void BeforeTest(ITestContext context) {
 
-    app = new ApplicationKeywords();
-    context.setAttribute("app", app);
-    
-    rep = ExtentManager.getReports();
-    test = rep.createTest(context.getCurrentXmlTest().getName());
-    
-    app.setReport(test);
+        app = new ApplicationKeywords();
+        context.setAttribute("app", app);
 
-    context.setAttribute("report", rep);
-    context.setAttribute("test", test);
-    
-    app.openBrowser("Chrome");
-    app.navigate("url");
+        rep = ExtentManager.getReports();
+        test = rep.createTest(context.getCurrentXmlTest().getName());
+
+        app.setReport(test);
+
+        context.setAttribute("report", rep);
+        context.setAttribute("test", test);
+
+        app.openBrowser(browser);
+        app.navigate("url");
     }
 
     @BeforeMethod(alwaysRun = true)
-    
-    public void BeforeMethod(ITestContext context){
-    test.log(Status.INFO, "In BeforeMethod");
-    test = (ExtentTest)context.getAttribute("test");
-    app = (ApplicationKeywords)context.getAttribute("app");
-    rep = (ExtentReports)context.getAttribute("report");
+    public void BeforeMethod(ITestContext context) {
+        test = (ExtentTest) context.getAttribute("test");
+        app = (ApplicationKeywords) context.getAttribute("app");
+        rep = (ExtentReports) context.getAttribute("report");
+        test.log(Status.INFO, "In BeforeMethod");
 
-    String criticalFailure = (String)context.getAttribute("criticalFailure");
+        String criticalFailure = (String) context.getAttribute("criticalFailure");
 
-    if(criticalFailure != null && criticalFailure.equals("Y")){
-      test.log(Status.SKIP, "Critical Failure In Previous Tests" );
-        throw new SkipException("Critical Failure In Previous Tests");
-    }
-		rep = (ExtentReports)context.getAttribute("report");
+        if (criticalFailure != null && criticalFailure.equals("Y")) {
+            test.log(Status.SKIP, "Critical Failure In Previous Tests");
+            throw new SkipException("Critical Failure In Previous Tests");
+        }
     }
 
     @AfterTest(alwaysRun = true)
-    public void quit(ITestContext context){
-      app = (ApplicationKeywords)context.getAttribute("app");
-      app.quit();
-      test.log(Status.INFO, "Test Finished" );
-      if(rep != null)rep.flush();
-      
+    public void quit(ITestContext context) {
+        app = (ApplicationKeywords) context.getAttribute("app");
+        if (app != null) {
+            app.quit();
+        }
+        if (test != null) {
+            test.log(Status.INFO, "Test Finished");
+        }
+        if (rep != null) {
+            rep.flush();
+        }
     }
-}      
+}
