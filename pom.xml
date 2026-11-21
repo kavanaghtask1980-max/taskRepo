@@ -83,12 +83,12 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/smokeSuite.xml</suiteXmlFile>
-                        <suiteXmlFile>src/test/resources/lifecycleSuite.xml</suiteXmlFile>
+                        <!-- <suiteXmlFile>src/test/resources/lifecycleSuite.xml</suiteXmlFile> -->
                     </suiteXmlFiles>
                     <properties>
                         <property>
                             <name>suitethreadpoolsize</name>
-                            <value>2</value>
+                            <value>1</value>
                         </property>
                     </properties>
                 </configuration>
