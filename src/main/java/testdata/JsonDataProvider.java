@@ -19,6 +19,11 @@ public class JsonDataProvider {
         return loadJsonArray("jenkinsJobs.json");
     }
 
+    @DataProvider(name = "seedJobData")
+    public static Object[][] getSeedJobData(Method method) {
+    return loadJsonArray("seedJobs.json");
+    }
+
     public static Object[][] loadJsonArray(String fileName) {
         List<Object[]> activeRows = new ArrayList<>();
         JSONParser parser = new JSONParser();

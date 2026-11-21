@@ -40,6 +40,8 @@ public class ApplicationKeywords extends BaseEngine {
         return driver.getTitle();
     }
 
+    
+
     public boolean isMenuLinkDisplayed(String locatorKey) {
         return isElementPresent(locatorKey) && getElement(locatorKey).isDisplayed();
     }
@@ -115,6 +117,16 @@ public class ApplicationKeywords extends BaseEngine {
             }
         }
     }
+
+    public void seedFreestyleJob(String jobName, String description) {
+    if (isJobListedOnDashboard(jobName)) {
+        log("Seed job already exists, skipping creation: " + jobName);
+        return;
+    }
+    createFreestyleJob(jobName, description);
+    driver.get(ConfigManager.getEnv("url")); // Return to dashboard for next seed row
+    waitForPageToLoad();
+}
 
     public void openBuildHistoryMenu(String buildNumber) {
         log("Opening build history menu for build #" + buildNumber);

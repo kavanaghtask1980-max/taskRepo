@@ -1,0 +1,17 @@
+[
+  {
+    "jobName": "seed-smoke-freestyle",
+    "description": "Baseline smoke test job seeded automatically",
+    "runMode": "Y"
+  },
+  {
+    "jobName": "seed-build-history-job",
+    "description": "Baseline job used for build trigger, edit, and delete tests",
+    "runMode": "Y"
+  },
+  {
+    "jobName": "seed-api-pipeline-stub",
+    "description": "Baseline job reserved for API framework integration",
+    "runMode": "Y"
+  }
+]
