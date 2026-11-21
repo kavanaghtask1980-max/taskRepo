@@ -16,11 +16,11 @@ public class JenkinsSmokeTests extends BaseTest {
             "Expected Dashboard title after login, but found: " + app.getPageTitle()
         );
         Assert.assertTrue(
-            app.isMenuLinkDisplayed("newItem_css"),
+            app.isMenuLinkDisplayed("dashboard_newItem_css"),
             "Expected 'New Item' link to be visible on Dashboard"
         );
         Assert.assertTrue(
-            app.isMenuLinkDisplayed("manageJenkinsLink_css"),
+            app.isMenuLinkDisplayed("dashboard_manageJenkins_css"),
             "Expected 'Manage Jenkins' link to be visible for authenticated admin"
         );
     }
@@ -29,11 +29,11 @@ public class JenkinsSmokeTests extends BaseTest {
     public void verifyNewItemPageNavigation(ITestContext context) {
         app.log("Running Smoke Test 2: verifyNewItemPageNavigation");
 
-        app.getElement("newItem_css").click();
+        app.getElement("dashboard_newItem_css").click();
         app.waitForPageToLoad();
 
         Assert.assertTrue(
-            app.isMenuLinkDisplayed("newItemName_css"),
+            app.isMenuLinkDisplayed("newItem_nameInput_css"),
             "Expected item name input field on New Item page"
         );
     }
