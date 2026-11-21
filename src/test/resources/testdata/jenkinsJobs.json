@@ -1,0 +1,20 @@
+[
+  {
+    "testName": "Standard Freestyle Build Job",
+    "jobPrefix": "auto-freestyle-smoke",
+    "description": "Data-driven Freestyle job created via JSON DataProvider",
+    "runMode": "Y"
+  },
+  {
+    "testName": "Regression Pipeline Freestyle Job",
+    "jobPrefix": "auto-freestyle-reg",
+    "description": "Regression suite Freestyle job verified and cleaned up automatically",
+    "runMode": "Y"
+  },
+  {
+    "testName": "Disabled Sample Job Row",
+    "jobPrefix": "auto-freestyle-skip",
+    "description": "Skipped automatically because runMode is set to N",
+    "runMode": "Y"
+  }
+]
