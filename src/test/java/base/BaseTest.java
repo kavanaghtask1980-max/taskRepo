@@ -5,12 +5,13 @@ import org.testng.SkipException;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
-import config.ConfigManager;
 import keywords.ApplicationKeywords;
 import reports.ExtentManager;
 
@@ -20,8 +21,9 @@ public class BaseTest {
     public ExtentReports rep;
     public ExtentTest test;
 
+    @Parameters("browser")
     @BeforeTest(alwaysRun = true)
-    public void BeforeTest(ITestContext context) {
+    public void BeforeTest(@Optional("Chrome") String browser, ITestContext context) {
 
         app = new ApplicationKeywords();
         context.setAttribute("app", app);
