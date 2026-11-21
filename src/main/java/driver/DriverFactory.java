@@ -18,18 +18,13 @@ public class DriverFactory {
     private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
 
     public static WebDriver initDriver(String browserName) {
-        String fallbackBrowser = (browserName == null || browserName.isBlank()) ? "Chrome" : browserName;
-        String targetBrowser = System.getProperty("browser", fallbackBrowser);
-
+        String targetBrowser = System.getProperty("browser", browserName);
         boolean isHeadless = "Y".equalsIgnoreCase(ConfigManager.getLocator("headless"));
         boolean isGrid = "Y".equalsIgnoreCase(ConfigManager.getLocator("grid_run"));
-        WebDriver driver;
 
-        if (isGrid) {
-            driver = createRemoteDriver(targetBrowser, isHeadless);
-        } else {
-            driver = createLocalDriver(targetBrowser, isHeadless);
-        }
+        WebDriver driver = isGrid
+                ? createRemoteDriver(targetBrowser, isHeadless)
+                : createLocalDriver(targetBrowser, isHeadless);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driverThread.set(driver);
@@ -37,26 +32,21 @@ public class DriverFactory {
     }
 
     private static WebDriver createLocalDriver(String browserName, boolean isHeadless) {
-        if (browserName.equalsIgnoreCase("Edge")) {
-            EdgeOptions options = new EdgeOptions();
-            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-            options.addArguments("--disable-notifications", "--remote-allow-origins=*");
-            if (isHeadless) {
-                options.addArguments("--headless=new", "--window-size=1920,1080");
-            } else {
-                options.addArguments("--start-maximized");
+        return switch (browserName == null ? "chrome" : browserName.toLowerCase()) {
+            case "edge" -> {
+                EdgeOptions options = new EdgeOptions();
+                options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+                options.addArguments("--disable-notifications", "--remote-allow-origins=*");
+                options.addArguments(isHeadless ? new String[]{"--headless=new", "--window-size=1920,1080"} : new String[]{"--start-maximized"});
+                yield new EdgeDriver(options);
             }
-            return new EdgeDriver(options);
-        }
-
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*", "--disable-notifications", "--ignore-certificate-errors");
-        if (isHeadless) {
-            options.addArguments("--headless=new", "--window-size=1920,1080");
-        } else {
-            options.addArguments("--start-maximized");
-        }
-        return new ChromeDriver(options);
+            default -> {
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--remote-allow-origins=*", "--disable-notifications", "--ignore-certificate-errors");
+                options.addArguments(isHeadless ? new String[]{"--headless=new", "--window-size=1920,1080"} : new String[]{"--start-maximized"});
+                yield new ChromeDriver(options);
+            }
+        };
     }
 
     private static WebDriver createRemoteDriver(String browserName, boolean isHeadless) {
@@ -65,7 +55,7 @@ public class DriverFactory {
                 : "http://localhost:4444";
 
         try {
-            if (browserName.equalsIgnoreCase("Edge") || browserName.equalsIgnoreCase("Mozilla")) {
+            if ("edge".equalsIgnoreCase(browserName) || "mozilla".equalsIgnoreCase(browserName)) {
                 EdgeOptions options = new EdgeOptions();
                 if (isHeadless) options.addArguments("--headless=new", "--window-size=1920,1080");
                 return new RemoteWebDriver(URI.create(gridUrl).toURL(), options);
