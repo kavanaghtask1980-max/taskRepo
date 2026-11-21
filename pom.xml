@@ -83,7 +83,7 @@
                 <configuration>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/smokeSuite.xml</suiteXmlFile>
-                        <!-- <suiteXmlFile>src/test/resources/lifecycleSuite.xml</suiteXmlFile> -->
+                        <suiteXmlFile>src/test/resources/lifecycleSuite.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>
