@@ -64,6 +64,10 @@ public class BaseEngine {
         jsClick(element);
     }
 
+    public void hover(WebElement element) {
+    actions.moveToElement(element).perform();
+    }
+
     public void safeClick(By by) {
         int attempts = 0;
         while (attempts < 3) {
