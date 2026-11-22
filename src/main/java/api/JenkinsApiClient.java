@@ -1,0 +1,93 @@
+package api;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import config.ConfigManager;
+
+public class JenkinsApiClient {
+
+    private final HttpClient client;
+    private final String baseUrl;
+    private final String authHeader;
+
+    public JenkinsApiClient() {
+        this.client = HttpClient.newHttpClient();
+        String rawUrl = ConfigManager.getEnv("url");
+        this.baseUrl = rawUrl.endsWith("/") ? rawUrl : rawUrl + "/";
+
+        String user = ConfigManager.getEnv("jenkinsUser");
+        // Prefer API token for REST calls; fall back to password if token not set
+        String token = ConfigManager.getEnv("jenkinsToken");
+        String secret = (token != null && !token.isBlank()) ? token : ConfigManager.getEnv("jenkinsPass");
+
+        String encoded = Base64.getEncoder().encodeToString((user + ":" + secret).getBytes(StandardCharsets.UTF_8));
+        this.authHeader = "Basic " + encoded;
+    }
+
+    public List<String> getAllJobNames() {
+        List<String> jobNames = new ArrayList<>();
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + "api/json?tree=jobs[name]"))
+                    .header("Authorization", authHeader)
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("GET /api/json failed with HTTP " + response.statusCode());
+            }
+
+            JSONObject root = (JSONObject) new JSONParser().parse(response.body());
+            JSONArray jobs = (JSONArray) root.get("jobs");
+
+            for (Object item : jobs) {
+                JSONObject job = (JSONObject) item;
+                jobNames.add((String) job.get("name"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch Jenkins jobs via REST API", e);
+        }
+        return jobNames;
+    }
+
+    public int deleteJob(String jobName) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + "job/" + jobName + "/doDelete"))
+                    .header("Authorization", authHeader)
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete Jenkins job via API: " + jobName, e);
+        }
+    }
+
+    public int resetAllJobsExcept(String protectedJobName) {
+        List<String> jobs = getAllJobNames();
+        int deletedCount = 0;
+
+        for (String job : jobs) {
+            if (!job.equalsIgnoreCase(protectedJobName)) {
+                int status = deleteJob(job);
+                System.out.println("[API Reset] Deleted '" + job + "' -> HTTP " + status);
+                deletedCount++;
+            }
+        }
+        return deletedCount;
+    }
+}

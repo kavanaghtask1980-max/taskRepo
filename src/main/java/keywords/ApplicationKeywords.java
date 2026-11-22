@@ -41,7 +41,6 @@ public class ApplicationKeywords extends BaseEngine {
     }
 
     
-
     public boolean isMenuLinkDisplayed(String locatorKey) {
         return isElementPresent(locatorKey) && getElement(locatorKey).isDisplayed();
     }
