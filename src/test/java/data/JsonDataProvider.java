@@ -1,4 +1,4 @@
-package testdata;
+package data;
 
 import java.io.FileReader;
 import java.lang.reflect.Method;

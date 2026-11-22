@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="JobLifecycleTests">
+    <!-- Optional Parallel Execution / Browser Overrides structured similarly to Smoke suite -->
+    <listeners>
+        <listener class-name="listener.MyTestNGListener" />
+    </listeners>
+    <test name="Regression - Data-Driven Freestyle Job Lifecycle (Chrome)">
+        <classes>
+            <class name="tests.regression.JobLifecycleTests" />
+        </classes>
+    </test>
+</suite>
