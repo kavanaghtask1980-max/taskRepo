@@ -3,6 +3,7 @@ package tests.regression;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.ITestContext;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import api.JenkinsApiClient;
@@ -19,6 +20,10 @@ public class CiJobProvisioningTests extends BaseTest {
         description = "Wipe Jenkins to 100% vanilla state and provision full CI Freestyle build job via UI"
     )
     public void verifyFullCiBuildJobProvisioning(JSONObject data, ITestContext context) {
+        if (System.getenv("BUILD_NUMBER") != null) {
+            throw new SkipException("Skipping destructive vanilla wipe inside active Jenkins CI build");
+        }
+
         String testName = (String) data.get("testName");
         String jobName = (String) data.get("jobName");
         String description = (String) data.get("description");
