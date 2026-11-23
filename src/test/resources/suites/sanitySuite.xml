@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="JenkinsSanityTests">
+<suite name="SanitySuite">
     <!-- Optional Parallel Execution:
-    <suite name="ISTQB_Tier1_Smoke_Suite" parallel="tests" thread-count="2">
+    <suite name="SanitySuite" parallel="tests" thread-count="2">
     -->
 
     <!-- Optional Suite-Level Browser Override (defaults to @Optional("Chrome") in BaseTest):
     <parameter name="browser" value="Chrome" />
     -->
 
-    <listeners>
-        <listener class-name="listener.MyTestNGListener" />
-    </listeners>
-
-    <test name="Smoke - API and Dashboard Readiness (Chrome)">
+    <test name="Sanity - Global Search and Core Navigation (Chrome)">
         <!-- Optional Test-Level Browser Override:
         <parameter name="browser" value="Chrome" />
         -->
         <classes>
-            <class name="tests.smoke.JenkinsSmokeTests" />
+            <class name="tests.sanity.JenkinsSanityTests" />
         </classes>
     </test>
 
     <!-- Optional Parallel Cross-Browser Block:
-    <test name="Smoke - API and Dashboard Readiness (Edge)">
+    <test name="Sanity - Global Search and Core Navigation (Edge)">
         <parameter name="browser" value="Edge" />
         <classes>
-            <class name="tests.smoke.JenkinsSmokeTests" />
+            <class name="tests.sanity.JenkinsSanityTests" />
         </classes>
     </test>
     -->

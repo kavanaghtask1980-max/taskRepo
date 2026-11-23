@@ -8,9 +8,7 @@
     <parameter name="browser" value="Chrome" />
     -->
 
-    <listeners>
-        <listener class-name="listener.MyTestNGListener" />
-    </listeners>
+
 
     <test name="Smoke - API and Dashboard Readiness (Chrome)">
         <!-- Optional Test-Level Browser Override:

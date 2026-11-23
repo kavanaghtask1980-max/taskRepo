@@ -56,6 +56,20 @@ public class ApplicationKeywords extends BaseEngine {
         jobConfigPage.createFreestyleJob(jobName, description);
     }
 
+    public void createConfiguredCiJob(
+            String jobName,
+            String description,
+            String gitUrl,
+            String branch,
+            String pollSchedule,
+            String pomPath,
+            String mavenGoals,
+            String artifactPattern) {
+                jobConfigPage.createConfiguredCiJob(
+                jobName, description, gitUrl, branch, pollSchedule, pomPath, mavenGoals, artifactPattern
+        );
+    }
+
     public void deleteCurrentJob() {
         jobConfigPage.deleteCurrentJob();
     }

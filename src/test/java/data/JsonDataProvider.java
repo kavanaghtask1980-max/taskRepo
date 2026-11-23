@@ -23,6 +23,12 @@ public class JsonDataProvider {
     public static Object[][] getSeedJobData(Method method) {
     return loadJsonArray("seedJobs.json");
     }
+    
+    @DataProvider(name = "ciJobData")
+    public static Object[][] getCiJobData(Method method) {
+    return loadJsonArray("ciJobs.json");
+    }
+
 
     public static Object[][] loadJsonArray(String fileName) {
         List<Object[]> activeRows = new ArrayList<>();

@@ -68,4 +68,95 @@ public class JobConfigPage {
             }
         }
     }
+
+        public void createConfiguredCiJob(
+            String jobName,
+            String description,
+            String gitUrl,
+            String branch,
+            String pollSchedule,
+            String pomPath,
+            String mavenGoals,
+            String artifactPattern) {
+
+        engine.log("Creating fully configured CI Freestyle job: " + jobName);
+        engine.getElement("dashboard_newItem_css").click();
+        engine.getElement("newItem_nameInput_css").sendKeys(jobName);
+        engine.getElement("newItem_freestyleCard_xpath").click();
+        engine.getElement("newItem_okBtn_id").click();
+        engine.waitForPageToLoad();
+
+        // 1. General Description
+        WebElement descBox = engine.getElement("job_description_name");
+        descBox.clear();
+        descBox.sendKeys(description);
+
+             // 2. Source Code Management -> Git
+     WebElement gitRadio = engine.driver.findElement(By.xpath("//label[normalize-space()='Git']"));
+     engine.jsClick(gitRadio);
+     engine.wait(1);
+
+     WebElement repoInput = engine.driver.findElements(By.name("_.url")).stream()
+         .filter(WebElement::isDisplayed)
+         .findFirst()
+         .orElseThrow(() -> new RuntimeException("Visible Git Repository URL input not found"));
+     repoInput.clear();
+     repoInput.sendKeys(gitUrl);
+
+     WebElement branchInput = engine.driver.findElements(By.name("_.name")).stream()
+         .filter(WebElement::isDisplayed)
+         .findFirst()
+         .orElseThrow(() -> new RuntimeException("Visible Git Branch Specifier input not found"));
+     branchInput.clear();
+     branchInput.sendKeys(branch);
+
+        // 3. Build Triggers -> Poll SCM
+        WebElement pollCheckbox = engine.driver.findElement(By.xpath("//label[normalize-space()='Poll SCM']"));
+        engine.jsClick(pollCheckbox);
+        WebElement scheduleBox = engine.driver.findElement(By.name("_.scmpoll_spec"));
+        scheduleBox.clear();
+        scheduleBox.sendKeys(pollSchedule);
+
+        // 4. Build Steps -> Invoke top-level Maven targets
+        WebElement addBuildStepBtn = engine.driver.findElement(
+            By.xpath("//button[contains(normalize-space(),'Add build step')]")
+        );
+        engine.jsClick(addBuildStepBtn);
+        WebElement mavenOption = engine.driver.findElement(
+            By.xpath("//button[contains(normalize-space(),'Invoke top-level Maven targets')]")
+        );
+        engine.jsClick(mavenOption);
+
+        WebElement goalsInput = engine.driver.findElement(By.name("_.targets"));
+        goalsInput.clear();
+        goalsInput.sendKeys(mavenGoals);
+
+        WebElement advancedBtn = engine.driver.findElement(
+            By.xpath("//div[contains(@descriptorid,'Maven')]//button[contains(normalize-space(),'Advanced')]")
+        );
+        engine.jsClick(advancedBtn);
+
+        WebElement pomInput = engine.driver.findElement(By.name("_.pom"));
+        pomInput.clear();
+        pomInput.sendKeys(pomPath);
+
+        // 5. Post-build Actions -> Archive the artifacts
+        WebElement addPostBuildBtn = engine.driver.findElement(
+            By.xpath("//button[contains(normalize-space(),'Add post-build action')]")
+        );
+        engine.jsClick(addPostBuildBtn);
+        WebElement archiveOption = engine.driver.findElement(
+            By.xpath("//button[contains(normalize-space(),'Archive the artifacts')]")
+        );
+        engine.jsClick(archiveOption);
+
+        WebElement artifactsInput = engine.driver.findElement(By.name("_.artifacts"));
+        artifactsInput.clear();
+        artifactsInput.sendKeys(artifactPattern);
+
+        // 6. Save Job
+        engine.getElement("job_saveBtn_css").click();
+        engine.waitForPageToLoad();
+    }
+
 }

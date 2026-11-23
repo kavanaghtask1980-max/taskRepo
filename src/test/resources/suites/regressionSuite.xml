@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="JobLifecycleTests">
-    <!-- Optional Parallel Execution / Browser Overrides structured similarly to Smoke suite -->
-    <listeners>
-        <listener class-name="listener.MyTestNGListener" />
-    </listeners>
-    <test name="Regression - Data-Driven Freestyle Job Lifecycle (Chrome)">
+<suite name="RegressionSuite">
+    <!-- Optional Parallel Execution:
+    <suite name="RegressionSuite" parallel="tests" thread-count="2">
+    -->
+
+    <!-- Optional Suite-Level Browser Override (defaults to @Optional("Chrome") in BaseTest):
+    <parameter name="browser" value="Chrome" />
+    -->
+
+    <test name="Regression - Data-Driven E2E Job Lifecycle and CI Provisioning (Chrome)">
+        <!-- Optional Test-Level Browser Override:
+        <parameter name="browser" value="Chrome" />
+        -->
         <classes>
             <class name="tests.regression.JobLifecycleTests" />
+            <class name="tests.regression.CiJobProvisioningTests" />
         </classes>
     </test>
+
+    <!-- Optional Parallel Cross-Browser Block:
+    <test name="Regression - Data-Driven E2E Job Lifecycle and CI Provisioning (Edge)">
+        <parameter name="browser" value="Edge" />
+        <classes>
+            <class name="tests.regression.JobLifecycleTests" />
+            <class name="tests.regression.CiJobProvisioningTests" />
+        </classes>
+    </test>
+    -->
 </suite>

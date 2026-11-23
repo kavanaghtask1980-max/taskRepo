@@ -62,7 +62,7 @@ public class JenkinsApiClient {
         return jobNames;
     }
 
-    public int deleteJob(String jobName) {
+        public int deleteJob(String jobName) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + "job/" + jobName + "/doDelete"))
@@ -71,11 +71,18 @@ public class JenkinsApiClient {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 401 || response.statusCode() == 403) {
+                throw new RuntimeException(
+                    "Jenkins API rejected deleteJob('" + jobName + "') with HTTP " + response.statusCode()
+                    + ". Check that JENKINS_TOKEN (or configs/secrets.properties -> jenkinsToken) is valid!"
+                );
+            }
             return response.statusCode();
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete Jenkins job via API: " + jobName, e);
         }
     }
+
 
     public int resetAllJobsExcept(String protectedJobName) {
         List<String> jobs = getAllJobNames();
@@ -90,4 +97,52 @@ public class JenkinsApiClient {
         }
         return deletedCount;
     }
+
+        public int wipeAllJobs() {
+        List<String> jobs = getAllJobNames();
+        int deletedCount = 0;
+
+        for (String job : jobs) {
+            int status = deleteJob(job);
+            System.out.println("[API Vanilla Wipe] Deleted '" + job + "' -> HTTP " + status);
+            deletedCount++;
+        }
+        return deletedCount;
+    }
+
+        public int createFreestyleJobViaApi(String jobName, String description) {
+        String configXml = """
+                <?xml version='1.1' encoding='UTF-8'?>
+                <project>
+                  <description>%s</description>
+                  <keepDependencies>false</keepDependencies>
+                  <properties/>
+                  <scm class="hudson.scm.NullSCM"/>
+                  <canRoam>true</canRoam>
+                  <disabled>false</disabled>
+                  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+                  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+                  <triggers/>
+                  <concurrentBuild>false</concurrentBuild>
+                  <builders/>
+                  <publishers/>
+                  <buildWrappers/>
+                </project>
+                """.formatted(description);
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + "createItem?name=" + jobName))
+                    .header("Authorization", authHeader)
+                    .header("Content-Type", "application/xml")
+                    .POST(HttpRequest.BodyPublishers.ofString(configXml))
+                    .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.statusCode();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create Jenkins job via REST API: " + jobName, e);
+        }
+    }
+    
 }

@@ -1,0 +1,14 @@
+[
+  {
+    "testName": "Provision Primary CI Freestyle Build Job",
+    "jobName": "Jenkins-CI-Automation-Runner",
+    "description": "End-to-end UI provisioned CI job polling GitHub and running Maven suites",
+    "gitUrl": "https://github.com/kavanaghtask1980-max/taskRepo.git",
+    "branch": "*/master",
+    "pollSchedule": "H/2 * * * *",
+    "pomPath": "jenkins_auto/pom.xml",
+    "mavenGoals": "clean test",
+    "artifactPattern": "reports/latest/**/*",
+    "runMode": "Y"
+  }
+]
