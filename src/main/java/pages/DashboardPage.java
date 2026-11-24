@@ -6,6 +6,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import base.BaseEngine;
 import config.ConfigManager;
@@ -67,4 +69,25 @@ public class DashboardPage {
             }
         }
     }
+
+        public void openNewItemPage() {
+        engine.driver.get(ConfigManager.getEnv("url") + "view/all/newJob");
+        engine.waitForPageToLoad();
+    }
+
+    public boolean isNewItemOkEnabled() {
+        return engine.driver.findElement(By.id("ok-button")).isEnabled();
+    }
+
+    public String enterNewItemNameAndGetValidationError(String jobName) {
+        WebElement nameInput = engine.driver.findElement(By.id("name"));
+        nameInput.clear();
+        nameInput.sendKeys(jobName);
+        engine.driver.findElement(By.xpath("//span[normalize-space()='Freestyle project']")).click();
+
+        WebElement errorBanner = new WebDriverWait(engine.driver, Duration.ofSeconds(5))
+            .until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-invalid")));
+        return errorBanner.getText();
+    }
+
 }

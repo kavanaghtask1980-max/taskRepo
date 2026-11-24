@@ -14,6 +14,9 @@
         -->
         <classes>
             <class name="tests.sanity.JenkinsSanityTests" />
+            <class name="tests.api.JenkinsApiContractTests" />
+            <class name="tests.negative.NegativeValidationTests" />
+            <class name="tests.security.SecurityAccessTests" />
         </classes>
     </test>
 

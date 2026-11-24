@@ -4,27 +4,29 @@ import base.BaseEngine;
 import pages.DashboardPage;
 import pages.JobConfigPage;
 import pages.LoginPage;
+import pages.NewItemPage;
 
 public class ApplicationKeywords extends BaseEngine {
 
     private final LoginPage loginPage;
     private final DashboardPage dashboardPage;
+    private final NewItemPage newItemPage;
     private final JobConfigPage jobConfigPage;
 
     public ApplicationKeywords() {
-        super();
         this.loginPage = new LoginPage(this);
         this.dashboardPage = new DashboardPage(this);
+        this.newItemPage = new NewItemPage(this);
         this.jobConfigPage = new JobConfigPage(this);
     }
 
-    // --- Navigation & Authentication ---
+    // --- Navigation & Authentication (LoginPage) ---
 
     public void navigate(String urlKey) {
         loginPage.openAndLoginIfNeeded(urlKey);
     }
 
-    // --- Dashboard & Search Actions ---
+    // --- Dashboard & Search Actions (DashboardPage) ---
 
     public String getPageTitle() {
         return driver.getTitle();
@@ -50,7 +52,21 @@ public class ApplicationKeywords extends BaseEngine {
         dashboardPage.selectContextMenuOption(menuOption);
     }
 
-    // --- Job Lifecycle & Configuration Actions ---
+    // --- New Item Creation & Validation Actions (NewItemPage) ---
+
+    public void openNewItemPage() {
+        newItemPage.open();
+    }
+
+    public boolean isNewItemOkEnabled() {
+        return newItemPage.isOkButtonEnabled();
+    }
+
+    public String enterNewItemNameAndGetValidationError(String jobName) {
+        return newItemPage.enterNameSelectFreestyleAndGetError(jobName);
+    }
+
+    // --- Job Lifecycle & Configuration Actions (JobConfigPage) ---
 
     public void createFreestyleJob(String jobName, String description) {
         jobConfigPage.createFreestyleJob(jobName, description);
@@ -65,7 +81,7 @@ public class ApplicationKeywords extends BaseEngine {
             String pomPath,
             String mavenGoals,
             String artifactPattern) {
-                jobConfigPage.createConfiguredCiJob(
+        jobConfigPage.createConfiguredCiJob(
                 jobName, description, gitUrl, branch, pollSchedule, pomPath, mavenGoals, artifactPattern
         );
     }

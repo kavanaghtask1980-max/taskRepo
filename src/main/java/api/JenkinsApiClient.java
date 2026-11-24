@@ -144,5 +144,37 @@ public class JenkinsApiClient {
             throw new RuntimeException("Failed to create Jenkins job via REST API: " + jobName, e);
         }
     }
+
+        public int getEndpointStatus(String relativePath, boolean authenticated) {
+        try {
+            HttpRequest.Builder builder = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + relativePath))
+                    .GET();
+            if (authenticated) {
+                builder.header("Authorization", authHeader);
+            }
+            return client.send(builder.build(), HttpResponse.BodyHandlers.ofString()).statusCode();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed GET request to: " + relativePath, e);
+        }
+    }
+
+    public String getEndpointBody(String relativePath) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + relativePath))
+                    .header("Authorization", authHeader)
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new RuntimeException("GET " + relativePath + " returned HTTP " + response.statusCode());
+            }
+            return response.body();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to fetch body from: " + relativePath, e);
+        }
+    }
+
     
 }
