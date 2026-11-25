@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "https://testng.org" >
+<suite name="ParallelCrossBrowserGridSuite" parallel="tests" thread-count="2">
+
+    <listeners>
+        <listener class-name="listener.MyTestNGListener"/>
+    </listeners>
+
+    <test name="Chrome - Sanity &amp; API">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name="tests.sanity.JenkinsSanityTests"/>
+            <class name="tests.api.JenkinsApiContractTests"/>
+            <class name="tests.negative.NegativeValidationTests"/>
+            <class name="tests.security.SecurityAccessTests"/>
+        </classes>
+    </test>
+
+    <test name="Edge - Smoke &amp; Sanity">
+        <parameter name="browser" value="Edge"/>
+        <classes>
+            <class name="tests.smoke.JenkinsSmokeTests"/>
+            <class name="tests.sanity.JenkinsSanityTests"/>
+        </classes>
+    </test>
+
+</suite>
