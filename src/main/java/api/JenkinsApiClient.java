@@ -176,5 +176,16 @@ public class JenkinsApiClient {
         }
     }
 
-    
+        public int postUnauthenticatedStatus(String relativePath) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseUrl + relativePath))
+                    .header("Content-Type", "application/xml")
+                    .POST(HttpRequest.BodyPublishers.ofString("<project/>"))
+                    .build();
+            return client.send(request, HttpResponse.BodyHandlers.ofString()).statusCode();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed unauthenticated POST to: " + relativePath, e);
+        }
+    }
 }
