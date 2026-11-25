@@ -4,4 +4,4 @@
 /.settings/
 /.vscode/
 **/secrets.properties
-*.env
+*.envhs_err_pid*.log 
