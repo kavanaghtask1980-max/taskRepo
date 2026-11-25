@@ -18,32 +18,15 @@ import config.ConfigManager;
 
 public class JenkinsApiClient {
 
+    private static final Set<String> DEFAULT_PROTECTED_JOBS = Set.of(
+        "Jenkins-CI-Automation-Runner",
+        "Jenkins-Declarative-Pipeline",
+        "Jenkins-Declarative-Pipe"
+    );
+
     private final HttpClient client;
     private final String baseUrl;
     private final String authHeader;
-
-        // At the top of JenkinsApiClient (alongside baseUrl, authHeader, client):
-    private static final Set<String> DEFAULT_PROTECTED_JOBS = Set.of(
-        "Jenkins-CI-Automation-Runner",
-        "Jenkins-Declarative-Pipeline"
-    );
-
-    public int resetAllJobsExcept(String protectedJobName) {
-        List<String> jobs = getAllJobNames();
-        int deletedCount = 0;
-
-        for (String job : jobs) {
-            boolean isProtected = (protectedJobName != null && job.equalsIgnoreCase(protectedJobName))
-                    || DEFAULT_PROTECTED_JOBS.stream().anyMatch(p -> p.equalsIgnoreCase(job));
-
-            if (!isProtected) {
-                int status = deleteJob(job);
-                System.out.println("[API Reset] Deleted '" + job + "' -> HTTP " + status);
-                deletedCount++;
-            }
-        }
-        return deletedCount;
-    }
 
     public JenkinsApiClient() {
         this.client = HttpClient.newHttpClient();
@@ -51,7 +34,6 @@ public class JenkinsApiClient {
         this.baseUrl = rawUrl.endsWith("/") ? rawUrl : rawUrl + "/";
 
         String user = ConfigManager.getEnv("jenkinsUser");
-        // Prefer API token for REST calls; fall back to password if token not set
         String token = ConfigManager.getEnv("jenkinsToken");
         String secret = (token != null && !token.isBlank()) ? token : ConfigManager.getEnv("jenkinsPass");
 
@@ -86,7 +68,7 @@ public class JenkinsApiClient {
         return jobNames;
     }
 
-        public int deleteJob(String jobName) {
+    public int deleteJob(String jobName) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + "job/" + jobName + "/doDelete"))
@@ -107,18 +89,15 @@ public class JenkinsApiClient {
         }
     }
 
-
     public int resetAllJobsExcept(String protectedJobName) {
         List<String> jobs = getAllJobNames();
         int deletedCount = 0;
 
-        Set<String> protectedJobs = Set.of(
-    "Jenkins-CI-Automation-Runner",
-    "Jenkins-Declarative-Pipeline"
-);
-
         for (String job : jobs) {
-            if (!job.equalsIgnoreCase(protectedJobName)) {
+            boolean isProtected = (protectedJobName != null && job.equalsIgnoreCase(protectedJobName))
+                    || DEFAULT_PROTECTED_JOBS.stream().anyMatch(p -> p.equalsIgnoreCase(job));
+
+            if (!isProtected) {
                 int status = deleteJob(job);
                 System.out.println("[API Reset] Deleted '" + job + "' -> HTTP " + status);
                 deletedCount++;
@@ -127,7 +106,7 @@ public class JenkinsApiClient {
         return deletedCount;
     }
 
-        public int wipeAllJobs() {
+    public int wipeAllJobs() {
         List<String> jobs = getAllJobNames();
         int deletedCount = 0;
 
@@ -139,7 +118,7 @@ public class JenkinsApiClient {
         return deletedCount;
     }
 
-        public int createFreestyleJobViaApi(String jobName, String description) {
+    public int createFreestyleJobViaApi(String jobName, String description) {
         String configXml = """
                 <?xml version='1.1' encoding='UTF-8'?>
                 <project>
@@ -174,7 +153,7 @@ public class JenkinsApiClient {
         }
     }
 
-        public int getEndpointStatus(String relativePath, boolean authenticated) {
+    public int getEndpointStatus(String relativePath, boolean authenticated) {
         try {
             HttpRequest.Builder builder = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + relativePath))
@@ -205,7 +184,7 @@ public class JenkinsApiClient {
         }
     }
 
-        public int postUnauthenticatedStatus(String relativePath) {
+    public int postUnauthenticatedStatus(String relativePath) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + relativePath))
