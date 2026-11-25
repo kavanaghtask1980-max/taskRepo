@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,6 +21,29 @@ public class JenkinsApiClient {
     private final HttpClient client;
     private final String baseUrl;
     private final String authHeader;
+
+        // At the top of JenkinsApiClient (alongside baseUrl, authHeader, client):
+    private static final Set<String> DEFAULT_PROTECTED_JOBS = Set.of(
+        "Jenkins-CI-Automation-Runner",
+        "Jenkins-Declarative-Pipeline"
+    );
+
+    public int resetAllJobsExcept(String protectedJobName) {
+        List<String> jobs = getAllJobNames();
+        int deletedCount = 0;
+
+        for (String job : jobs) {
+            boolean isProtected = (protectedJobName != null && job.equalsIgnoreCase(protectedJobName))
+                    || DEFAULT_PROTECTED_JOBS.stream().anyMatch(p -> p.equalsIgnoreCase(job));
+
+            if (!isProtected) {
+                int status = deleteJob(job);
+                System.out.println("[API Reset] Deleted '" + job + "' -> HTTP " + status);
+                deletedCount++;
+            }
+        }
+        return deletedCount;
+    }
 
     public JenkinsApiClient() {
         this.client = HttpClient.newHttpClient();
@@ -87,6 +111,11 @@ public class JenkinsApiClient {
     public int resetAllJobsExcept(String protectedJobName) {
         List<String> jobs = getAllJobNames();
         int deletedCount = 0;
+
+        Set<String> protectedJobs = Set.of(
+    "Jenkins-CI-Automation-Runner",
+    "Jenkins-Declarative-Pipeline"
+);
 
         for (String job : jobs) {
             if (!job.equalsIgnoreCase(protectedJobName)) {
