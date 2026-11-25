@@ -17,6 +17,11 @@ pipeline {
             defaultValue: false,
             description: 'Spin up Docker Selenium Grid containers and execute remotely (-Dgrid_run=Y)'
         )
+        booleanParam(
+            name: 'HEADLESS',
+            defaultValue: true,
+            description: 'Run browsers headless (uncheck when USE_GRID=true to watch live in Grid UI!)'
+        )
         string(
             name: 'GRID_TARGET_URL',
             defaultValue: 'http://172.24.240.1:8080/',
@@ -31,7 +36,7 @@ pipeline {
         GRID_FLAG     = "${params.USE_GRID ? 'Y' : 'N'}"
         HEADLESS_FLAG = "${params.HEADLESS ? 'Y' : 'N'}"
     }
-    
+
     triggers {
         pollSCM('H/5 * * * *')
     }
@@ -39,7 +44,7 @@ pipeline {
     stages {
         stage('Checkout & Validate Environment') {
             steps {
-                echo "Running [${params.SUITE_PROFILE}] against [${params.TARGET_ENV}] | Grid=${env.GRID_FLAG}"
+                echo "Running [${params.SUITE_PROFILE}] against [${params.TARGET_ENV}] | Grid=${env.GRID_FLAG} | Headless=${env.HEADLESS_FLAG}"
                 bat 'mvn -version'
             }
         }
@@ -65,7 +70,7 @@ pipeline {
             steps {
                 script {
                     def urlOverride = params.USE_GRID ? "-Durl=${params.GRID_TARGET_URL}" : ''
-                    bat 'mvn test -P' + params.SUITE_PROFILE + ' -Denv=' + params.TARGET_ENV + ' -Dheadless=Y -Dgrid_run=' + env.GRID_FLAG + ' ' + urlOverride + ' -DargLine="-Xmx512m"'
+                    bat 'mvn test -P' + params.SUITE_PROFILE + ' -Denv=' + params.TARGET_ENV + ' -Dheadless=' + env.HEADLESS_FLAG + ' -Dgrid_run=' + env.GRID_FLAG + ' ' + urlOverride + ' -DargLine="-Xmx512m"'
                 }
             }
         }
@@ -83,7 +88,7 @@ pipeline {
             archiveArtifacts artifacts: 'reports/**/*.html, reports/**/*.png', allowEmptyArchive: true
         }
         success {
-            echo "Pipeline PASSED for environment: ${params.TARGET_ENV} (Grid=${env.GRID_FLAG})"
+            echo "Pipeline PASSED for environment: ${params.TARGET_ENV} (Grid=${env.GRID_FLAG}, Headless=${env.HEADLESS_FLAG})"
         }
         failure {
             echo "Pipeline FAILED — inspect Surefire XML results and archived ExtentReports/screenshots."
