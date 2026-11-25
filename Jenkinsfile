@@ -25,11 +25,13 @@ pipeline {
     }
 
     environment {
+        PATH          = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
         JENKINS_TOKEN = credentials('jenkins-api-token')
         JENKINS_PASS  = credentials('jenkins-ui-pass')
         GRID_FLAG     = "${params.USE_GRID ? 'Y' : 'N'}"
+        HEADLESS_FLAG = "${params.HEADLESS ? 'Y' : 'N'}"
     }
-
+    
     triggers {
         pollSCM('H/5 * * * *')
     }
