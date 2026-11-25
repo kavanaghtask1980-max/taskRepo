@@ -19,7 +19,7 @@ pipeline {
         )
         string(
             name: 'GRID_TARGET_URL',
-            defaultValue: 'http://172.24.240',
+            defaultValue: 'http://172.24.240.1:8080/',
             description: 'Jenkins URL reachable from inside Docker browser containers'
         )
     }
